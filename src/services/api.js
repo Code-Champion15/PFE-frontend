@@ -114,12 +114,26 @@ export const getPageByRoute = async (route) => {
   }
 };
 
+// export const getPageById = async (id) => {
+//   try {
+//     const response = await axios.get(`${API_URL}/pages/${id}`);
+//     return response.data;
+//   } catch (error) {
+//     throw new Error("Erreur lors de la récupération de la page");
+//   }
+// };
+
 export const getPageById = async (id) => {
+  console.log(`FRONTEND: Récupération de la page avec ID: ${id}`);
   try {
     const response = await axios.get(`${API_URL}/pages/${id}`);
-    return response.data;
+    console.log(" FRONTEND: Réponse reçue pour getPageById :", response.data);
+    // Si le contenu est une chaîne, on le parse
+    const content = typeof response.data.content === "string" ? JSON.parse(response.data.content) : response.data.content;
+    return { ...response.data, content };
   } catch (error) {
-    throw new Error("Erreur lors de la récupération de la page");
+    console.error("FRONTEND: Erreur dans getPageById :", error);
+    throw error;
   }
 };
 
@@ -130,7 +144,8 @@ export const updatePage = async (id, pageData) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error("Erreur lors de la modification de la page");
+    console.error("[API] Erreur dans getPageById:", error);
+    throw error;
   }
 };
 
@@ -169,15 +184,16 @@ export const getPageContent = async (id) => {
 };
 
 
-export const updatePageContent = async (pageId, contentData) => {
-  try {
-    const response = await axios.put(`${API_URL}/pages/${pageId}`, contentData);
-    return response.data;
-  } catch (error) {
-    console.error("Erreur lors de la mise à jour du contenu de la page :", error);
-    throw error;
-  }
-};
+  export const updatePageContent = async (pageId, contentData) => {
+    try {
+      const payload = { content: JSON.stringify(contentData) };
+      const response = await axios.put(`${API_URL}/pages/update/${pageId}`, payload);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour du contenu de la page :", error);
+      throw error;
+    }
+  };
 
 export const getAllPagesWithChildren = async () => {
   try {
