@@ -15,7 +15,7 @@ const PageCreation = () => {
   const [treeData, setTreeData] = useState([]);
   const navigate = useNavigate();
 
-  // Fonction récursive pour rechercher un nœud par son id dans l'arbre
+  // c est une fonc récursive pour rechercher un nœud par son id dans l'arbre
   const findNodeById = (nodes, id) => {
     for (const node of nodes) {
       if (node.id === id) {
@@ -29,7 +29,6 @@ const PageCreation = () => {
     return null;
   };
 
-  // Récupère la route du parent sélectionné
   const getParentRoute = () => {
     const parentNode = findNodeById(treeData, pageData.parentId);
     return parentNode ? parentNode.route : "";
@@ -48,7 +47,7 @@ const PageCreation = () => {
       : `/${formattedRoute}`;
   };
 
-  // Mise à jour de la sélection du parent depuis CustomTreeView
+  // sélection du parent depuis CustomTreeView
   const handleSelect = (node) => {
     setPageData((prev) => ({
       ...prev,
@@ -74,9 +73,9 @@ const PageCreation = () => {
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "");
     try {
+      //au debut avec content vide
       const newPage = await createPage({ ...pageData, route: formattedRoute, content: "" });
       console.log("Page ajoutée :", newPage);
-      // Redirige vers SultanChatbot avec l'ID de la page
       navigate(`/admin/SultanChatbot/${newPage.id}`);
     } catch (error) {
       console.error("Erreur lors de la création de la page :", error);
@@ -97,7 +96,7 @@ const PageCreation = () => {
     loadPages();
   }, []);
 
-  // Fonction pour transformer une liste plate en arbre hiérarchique
+  // transformer une liste plate en arbre hiérarchique
   const buildTree = (flatData) => {
     const map = {};
     const tree = [];
@@ -107,10 +106,9 @@ const PageCreation = () => {
       map[item.id] = { ...item, label: item.name, children: [], route: item.route };
     });
 
-    // On construit l'arbre en associant les enfants à leurs parents
+    // construire treeView 
     flatData.forEach((item) => {
       if (item.parentId) {
-        // Vérification si le parent existe bien dans le map
         if (map[item.parentId]) {
           map[item.parentId].children.push(map[item.id]);
         }
