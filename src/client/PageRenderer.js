@@ -15,6 +15,7 @@ const PageRenderer = ({ route }) => {
         console.log("Appel API en cours pour la route:", route);
         const response = await getPageContentByRoute(route);
         console.log("Réponse API :", response);
+        setContent(response);
 
         if (response.length === 0) {
           throw new Error("Aucun contenu disponible.");
@@ -38,7 +39,7 @@ const PageRenderer = ({ route }) => {
 
   if (loading) return <p>Chargement..</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
-  if (!content || content.length === 0) return <p>Aucun contenu disponible.</p>;
+  if (!content || content.length === 0) return <p>pas de contenu disponible </p>;
 
   return (
     <div>
