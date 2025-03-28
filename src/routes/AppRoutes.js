@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "../client/Navbar";
 import PageCreation from "../admin/PageCreation";
-import PageEditor from "../admin/PageEditor";
 import DashboardContent from "../admin/DashboardContent";
 import Login from "../pages/Login";
 import { Box } from "@mui/material";
@@ -12,6 +11,7 @@ import SultanChatbot from "../admin/SultanChatBot";
 import SultanPreview from "../admin/SultanPreview";
 import PageRenderer from "../client/PageRenderer";
 import { useParams } from "react-router-dom"; 
+import AdminModificationWizard from "../admin/AdminModificationWizard";
 
 const DynamicPage = () => {
   const { route } = useParams(); 
@@ -20,7 +20,7 @@ const DynamicPage = () => {
 
 const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
   const location = useLocation();
-  const isAdminPage = location.pathname.startsWith("/admin"); // Vérifie si l'on est sur une page admin
+  const isAdminPage = location.pathname.startsWith("/admin"); 
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
@@ -35,7 +35,6 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
       <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1, p: 2 }}>
         <Routes>
           {/* Interface Client */}
-          {/*<Route path="/client" element={<Navbar />} />*/}
           <Route path="/:route" element={<DynamicPage />} />
 
           {/* Interface Admin */}
@@ -44,7 +43,8 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
           <Route path="/admin/create" element={<PageCreation />} />
           <Route path="/admin/SultanChatbot/:pageId" element={<SultanChatbot />} />
           <Route path="/admin/SultanPreview" element={<SultanPreview />} />
-          <Route path="/admin/edit/:id" element={<PageEditor />} />
+          <Route path="/admin/modify" element={<AdminModificationWizard />} />
+
         </Routes>
       </Box>
     </Box>
