@@ -37,7 +37,7 @@ const Sidebar = ({ open }) => {
                     { text: "Tableau de bord", icon: <DashboardIcon />, path: "/admin/dashboard" },
                     { text: "Création", icon: <AddIcon />, path: "/admin/create" },
                     { text: "Modification", icon: <EditIcon />, path: "/admin/modify"  },
-                    { text: "Historique", icon: <HistoryIcon /> , path:"/historique"},
+                    { text: "Historique", icon: <HistoryIcon /> , path:"/admin/history"},
                 ].map((item, index) => (
                     <Tooltip title={!open ? item.text : ""} placement="right" key={index}>
                         <ListItem button onClick={() => handleNavigation(item.path)}>

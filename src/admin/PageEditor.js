@@ -120,13 +120,28 @@ const PageEditor = ({ pageId, onBack }) => {
 
   return (
     <Box>
-      {onBack && (
-        <Button onClick={onBack} variant="outlined" sx={{ mb: 2 }}>
-          Précédent
-        </Button>
-      )}
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        {onBack && (
+          <Button onClick={onBack} variant="outlined" sx={{
+            backgroundColor: "#F5F5F5",
+            color: "#000",
+            borderColor: "#1B374C",
+            height: "40px",
+            borderRadius: 5,
+            "&:active": {
+              backgroundColor: "#1B374C",
+              color: "#FFF",
+              borderColor: "#1B374C",
+            },
+            mb: 2,
+
+          }}>
+            Précédent
+          </Button>
+        )}
+      </Box>
       {page && <Typography variant="h6" gutterBottom>Modification de la page : {page.name}</Typography>}
-      
+
       <Paper sx={{ p: 2, mb: 2, border: "1px solid gray" }}>
         {content.map((element, index) =>
           createEditableElementFromJson(element, `${index}`, handleSelectElement)

@@ -122,7 +122,7 @@ const PageCreation = () => {
 
   return (
     <Paper sx={{ p: 3, mt: 10, mx: "auto", width: "75%" }}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h6" gutterBottom color="#F39325">
         Créer une nouvelle page
       </Typography>
       <TextField
