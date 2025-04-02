@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Typography, Button, Box, Card, CardMedia, CardContent, Accordion, AccordionSummary, AccordionDetails } from "@mui/material"; 
 import EditableWrapper from "../components/EditableWrapper";
 
-
 //pour la creation des pages
 export const createElementFromJson = (element, key) => {
   if (!element || !element.type) return null;
@@ -36,7 +35,6 @@ export const createElementFromJson = (element, key) => {
     </Component>
   );
 };
-
 
 //pour le mode edit : les elements enveloppés
 export const createEditableElementFromJson = (element, path = "0", onSelect) => {

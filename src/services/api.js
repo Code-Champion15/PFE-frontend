@@ -184,16 +184,42 @@ export const getPageContent = async (id) => {
 };
 
 
-  export const updatePageContent = async (pageId, contentData) => {
+  // export const updatePageContent = async (pageId, contentData) => {
+  //   try {
+  //     const payload = { content: JSON.stringify(contentData) };
+  //     const response = await axios.put(`${API_URL}/pages/update/${pageId}`, payload);
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error("Erreur lors de la mise à jour du contenu de la page :", error);
+  //     throw error;
+  //   }
+  // };
+
+  export const updatePageContent = async (pageId, contentData, operationType) => {
     try {
-      const payload = { content: JSON.stringify(contentData) };
-      const response = await axios.put(`${API_URL}/pages/update/${pageId}`, payload);
+      const token = localStorage.getItem("token");
+      // Convertir contentData en chaîne JSON pour stockage
+      const payload = {
+        content: JSON.stringify(contentData),
+        operationType, // "modification" ou "creation"
+        // Le userName sera récupéré dans le backend via le token (req.user.username)
+      };
+      console.log(` FRONTEND : Mise à jour de la page avec ID: ${pageId}`);
+      console.log(" FRONTEND : Payload envoyé :", payload);
+      const response = await axios.put(`${API_URL}/pages/update/${pageId}`, payload, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+      });
+      console.log(" FRONTEND : Réponse :", response.data);
       return response.data;
     } catch (error) {
-      console.error("Erreur lors de la mise à jour du contenu de la page :", error);
+      console.error("Erreur lors de la mise à jour du contenu :", error);
       throw error;
     }
   };
+
 
 export const getAllPagesWithChildren = async () => {
   try {
@@ -231,3 +257,44 @@ export const getPageContentByRoute = async (route) => {
     throw error;
   }
 };
+
+export const getModificationHistory = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.get(`${API_URL}/pages/history`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    console.log("historique récupéré: ", response.data)
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'historique :", error);
+    throw error;
+  }
+};
+
+export const registerUser = async (userData) => {
+  try {
+    const response = await axios.post(`${API_URL}/auth/register`, userData, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lors de l'inscription :", error.response?.data || error);
+    throw error;
+  }
+};
+
+export const loginUser = async (credentials) => {
+  try {
+    const response = await axios.post(`${API_URL}/auth/login`, credentials, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lors de la connexion :", error.response?.data || error);
+    throw error;
+  }
+};
+
