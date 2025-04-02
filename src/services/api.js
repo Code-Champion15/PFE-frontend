@@ -151,8 +151,11 @@ export const updatePage = async (id, pageData) => {
 
 export const createPage = async (pageData) => {
   try {
-    const response = await axios.post(`${API_URL}/pages`, pageData, {
-      headers: { "Content-Type": "application/json" },
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/pages/create`, pageData, {
+      headers: { "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+       },
     });
     return response.data;
   } catch (error) {

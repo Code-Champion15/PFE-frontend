@@ -20,6 +20,7 @@ const AuthPage = ({ onLogin = () => { } }) => {
       } else {
         const response = await loginUser(formData);
         localStorage.setItem("token", response.token);
+        console.log("Token sauvegardé : ", response.token);
         if (typeof onLogin === "function") {
           onLogin();
         }
