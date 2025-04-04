@@ -13,6 +13,8 @@ import { useParams } from "react-router-dom";
 import AdminModificationWizard from "../admin/AdminModificationWizard";
 import HistoryPage from "../pages/HistoryPage";
 import AuthPage from "../pages/AuthPage";
+import ForgotPassword from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
 
 const DynamicPage = () => {
   const { route } = useParams(); 
@@ -22,7 +24,7 @@ const DynamicPage = () => {
 const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith("/admin"); 
-  const isLoginPage = location.pathname === "/login";
+  const isLoginPage = location.pathname.startsWith("/login");
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       {!isAdminPage && !isLoginPage && <Navbar />}
@@ -39,7 +41,9 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
           <Route path="/:route" element={<DynamicPage />} />
 
           {/* Interface Admin */}
-          <Route path="/login" element={<AuthPage />} />         
+          <Route path="/login" element={<AuthPage />} />
+          <Route path="/login/forgot-password" element={<ForgotPassword />} />    
+          <Route path="/login/reset-password" element={<ResetPassword />} />     
           <Route path="/admin/dashboard" element={<DashboardContent />} />
           <Route path="/admin/create" element={<PageCreation />} />
           <Route path="/admin/SultanChatbot/:pageId" element={<SultanChatbot />} />

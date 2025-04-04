@@ -1,6 +1,7 @@
 import React from "react";
-import { Container, Typography, Button, Box, Card, CardMedia, CardContent, Accordion, AccordionSummary, AccordionDetails } from "@mui/material"; 
+import { Container, Typography, Button, Box, Card, CardMedia, CardContent, Accordion, AccordionSummary, AccordionDetails, Paper } from "@mui/material"; 
 import EditableWrapper from "../components/EditableWrapper";
+
 
 //pour la creation des pages
 export const createElementFromJson = (element, key) => {
@@ -12,6 +13,8 @@ export const createElementFromJson = (element, key) => {
     button: Button,
     box: Box,
     card: Card,
+    image: "img",
+    paper: Paper,
     cardmedia: CardMedia,
     cardcontent: CardContent,
     accordion: Accordion,
@@ -42,10 +45,12 @@ export const createEditableElementFromJson = (element, path = "0", onSelect) => 
 
   const componentsMap = {
     container: Container,
+    paper: Paper,
     typography: Typography,
     button: Button,
     box: Box,
     card: Card,
+    image: "img",
     cardmedia: CardMedia,
     cardcontent: CardContent,
     accordion: Accordion,

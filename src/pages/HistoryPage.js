@@ -1,6 +1,5 @@
 import React from "react";
 import HistoryViewer from "../components/HistoryViewer";
-import { Padding } from "@mui/icons-material";
 
 const HistoryPage = () => {
   return (

@@ -1,7 +1,7 @@
 // src/pages/AuthPage.js
 import React, { useState } from "react";
 import { TextField, Button, Box, Card, CardContent, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { registerUser, loginUser } from "../services/api";
 
 const AuthPage = ({ onLogin = () => { } }) => {
@@ -52,7 +52,7 @@ const AuthPage = ({ onLogin = () => { } }) => {
       <Card sx={{ width: 350, padding: 3, boxShadow: 3, borderRadius: 2, mx: "auto", mt: 10 }}>
         <CardContent>
 
-          <Typography variant="h5" sx={{textAlign: "center", fontWeight: "bold", color: "#F39325"}}>{isRegister ? "Inscription" : "Connexion"}</Typography>
+          <Typography variant="h5" sx={{ textAlign: "center", fontWeight: "bold", color: "#F39325" }}>{isRegister ? "Inscription" : "Connexion"}</Typography>
           <form onSubmit={handleSubmit}>
             {isRegister && (
               <TextField
@@ -81,6 +81,14 @@ const AuthPage = ({ onLogin = () => { } }) => {
               sx={{ my: 1 }}
               required
             />
+            {/* ✅ Lien vers mot de passe oublié */}
+            {!isRegister && (
+              <Box sx={{ textAlign: "right", mt: 1, mb: 2 }}>
+                <Link to="/auth/forgot-password" style={{ color: "#1B374C", fontSize: "0.875rem" }}>
+                  Mot de passe oublié ?
+                </Link>
+              </Box>
+            )}
             <Button type="submit" variant="contained" fullWidth
               sx={{
                 backgroundColor: "#1B374C",
