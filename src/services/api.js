@@ -92,6 +92,7 @@
 
 // // D'autres fonctions (createPage, deletePage) peuvent être ajoutées de la même manière.
 
+import { Password } from "@mui/icons-material";
 import axios from "axios";
 
 const API_URL = "http://localhost:5000";
@@ -279,7 +280,20 @@ export const getModificationHistory = async () => {
 
 export const registerUser = async (userData) => {
   try {
-    const response = await axios.post(`${API_URL}/auth/register`, userData, {
+    const payload = {
+      username: userData.username,
+      email: userData.email,
+      password: userData.password,
+      role: userData.role,
+    };
+
+    if (userData.role === "super-admin" && userData.superadminKey?.trim()) {
+      payload.superadminKey = userData.superadminKey;
+    }
+
+    console.log("Payload envoyé:", payload);
+
+    const response = await axios.post(`${API_URL}/auth/register`, payload, {
       headers: { "Content-Type": "application/json" },
     });
     return response.data;

@@ -8,7 +8,7 @@ const DashboardContent = () => {
         <Card sx={{ width: "95%", boxShadow: 3, marginTop: "64px", marginLeft: "64px" }}>
                     <Box sx={{ flexGrow: 1, p: 3 }}>
                         <Typography variant="h3" sx={{ my: 2, textAlign: "center", color: "#F39325" }}>
-                            SULTAN Dashboard
+                            Dashboard
                         </Typography>
                         <Box
                             display="grid"

@@ -1,22 +1,33 @@
-// src/pages/AuthPage.js
 import React, { useState } from "react";
-import { TextField, Button, Box, Card, CardContent, Typography } from "@mui/material";
+import { TextField, Button, Box, Card, CardContent, Typography, MenuItem } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser, loginUser } from "../services/api";
 
 const AuthPage = ({ onLogin = () => { } }) => {
   const [isRegister, setIsRegister] = useState(false);
-  const [formData, setFormData] = useState({ username: "", email: "", password: "" });
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    role: "admin",
+    superadminKey: "",
+  });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (isRegister && formData.role === "super-admin" && !formData.superadminKey.trim()) {
+      alert("La clé Super Admin est requise pour créer un super administrateur.");
+      return;
+    }
+    
     try {
       if (isRegister) {
         const response = await registerUser(formData);
         alert("Inscription réussie. Veuillez vous connecter.");
         setIsRegister(false);
-        setFormData({ username: "", email: "", password: "" });
+        setFormData({ username: "", email: "", password: "", role: "admin", superadminKey: "" });
       } else {
         const response = await loginUser(formData);
         localStorage.setItem("token", response.token);
@@ -37,7 +48,7 @@ const AuthPage = ({ onLogin = () => { } }) => {
 
   const toggleAuthMode = () => {
     setIsRegister(!isRegister);
-    setFormData({ username: "", email: "", password: "" });
+    setFormData({ username: "", email: "", password: "", role: "admin", superadminKey: "" });
   };
 
   return (
@@ -47,22 +58,24 @@ const AuthPage = ({ onLogin = () => { } }) => {
       backgroundPosition: "center",
       height: 580,
       width: 1136
-
     }}>
       <Card sx={{ width: 350, padding: 3, boxShadow: 3, borderRadius: 2, mx: "auto", mt: 10 }}>
         <CardContent>
-
-          <Typography variant="h5" sx={{ textAlign: "center", fontWeight: "bold", color: "#F39325" }}>{isRegister ? "Inscription" : "Connexion"}</Typography>
+          <Typography variant="h5" sx={{ textAlign: "center", fontWeight: "bold", color: "#F39325" }}>
+            {isRegister ? "Inscription" : "Connexion"}
+          </Typography>
           <form onSubmit={handleSubmit}>
             {isRegister && (
-              <TextField
-                label="Nom d'utilisateur"
-                value={formData.username}
-                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                fullWidth
-                sx={{ my: 1 }}
-                required
-              />
+              <>
+                <TextField
+                  label="Nom d'utilisateur"
+                  value={formData.username}
+                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                  fullWidth
+                  sx={{ my: 1 }}
+                  required
+                />
+              </>
             )}
             <TextField
               label="Email"
@@ -81,10 +94,34 @@ const AuthPage = ({ onLogin = () => { } }) => {
               sx={{ my: 1 }}
               required
             />
-            {/* ✅ Lien vers mot de passe oublié */}
+
+            <TextField
+              label="Rôle"
+              select
+              value={formData.role}
+              onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+              fullWidth
+              sx={{ my: 1 }}
+              required
+            >
+              <MenuItem value="admin">Admin</MenuItem>
+              <MenuItem value="super-admin">Super Admin</MenuItem>
+            </TextField>
+
+            {formData.role === "super-admin" && (
+              <TextField
+                label="Clé Super Admin"
+                value={formData.superadminKey}
+                onChange={(e) => setFormData({ ...formData, superadminKey: e.target.value })}
+                fullWidth
+                sx={{ my: 1 }}
+                required
+              />
+            )}
+
             {!isRegister && (
               <Box sx={{ textAlign: "right", mt: 1, mb: 2 }}>
-                <Link to="/auth/forgot-password" style={{ color: "#1B374C", fontSize: "0.875rem" }}>
+                <Link to="/login/forgot-password" style={{ color: "#1B374C", fontSize: "0.875rem" }}>
                   Mot de passe oublié ?
                 </Link>
               </Box>
@@ -112,7 +149,6 @@ const AuthPage = ({ onLogin = () => { } }) => {
                 borderColor: "#1B374C",
               },
               mt: 2,
-
             }}>
               {isRegister ? "Déjà inscrit ? Se connecter" : "Pas encore inscrit ? Créer un compte"}
             </Button>
@@ -121,7 +157,6 @@ const AuthPage = ({ onLogin = () => { } }) => {
         </CardContent>
       </Card>
     </Box >
-
   );
 };
 

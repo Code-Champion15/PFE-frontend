@@ -15,6 +15,7 @@ import HistoryPage from "../pages/HistoryPage";
 import AuthPage from "../pages/AuthPage";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
+import PendingAdmins from "../admin/PendingAdmins";
 
 const DynamicPage = () => {
   const { route } = useParams(); 
@@ -37,19 +38,21 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
 
       <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1, p: 2 }}>
         <Routes>
-          {/* Interface Client */}
+         
           <Route path="/:route" element={<DynamicPage />} />
 
-          {/* Interface Admin */}
+         
           <Route path="/login" element={<AuthPage />} />
           <Route path="/login/forgot-password" element={<ForgotPassword />} />    
-          <Route path="/login/reset-password" element={<ResetPassword />} />     
+          <Route path="/login/reset-password" element={<ResetPassword />} /> 
+
           <Route path="/admin/dashboard" element={<DashboardContent />} />
           <Route path="/admin/create" element={<PageCreation />} />
           <Route path="/admin/SultanChatbot/:pageId" element={<SultanChatbot />} />
           <Route path="/admin/SultanPreview" element={<SultanPreview />} />
           <Route path="/admin/modify" element={<AdminModificationWizard />} />
           <Route path="/admin/history" element={<HistoryPage />} />
+          <Route path="/admin/pending-admins" element={<PendingAdmins/>} />
 
         </Routes>
       </Box>
