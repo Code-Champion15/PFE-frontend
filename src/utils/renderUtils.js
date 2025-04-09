@@ -60,7 +60,6 @@ export const createEditableElementFromJson = (element, path = "0", onSelect) => 
 
   const Component = componentsMap[element.type.toLowerCase()] || "div";
   
-  // Récupération des enfants avec parcours récursif
   let children = null;
   if (typeof element.children === "string") {
     children = element.children;
@@ -69,7 +68,6 @@ export const createEditableElementFromJson = (element, path = "0", onSelect) => 
       createEditableElementFromJson(child, `${path}-${index}`, onSelect)
     );
   }
-  // Envelopper l'élément pour qu'il soit cliquable
   return (
     <EditableWrapper onClick={(e) => { 
       e.stopPropagation(); 

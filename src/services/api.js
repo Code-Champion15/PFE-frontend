@@ -315,3 +315,32 @@ export const loginUser = async (credentials) => {
   }
 };
 
+// Fonction pour enregistrer une visite (trackVisit)
+export const trackVisit = async (data) => {
+  const response = await axios.post(`${API_URL}/statistics/track-visit`, data);
+  return response.data;
+};
+
+export const getPageList = async () => {
+  const response = await axios.get(`${API_URL}/pages/list`);
+  return response.data;
+};
+
+// Fonction pour récupérer les statistiques d'une page (getStatsByPage)
+export const getStatsByPage = async (pageRoute) => {
+  const response = await axios.get(`${API_URL}/statistics/stats-by-page`, {
+    params: { pageRoute },
+  });
+  return response.data;
+};
+
+export const getAllStats = async (params = {}) => {
+  const response = await axios.get(`${API_URL}/statistics/stats-all`, { params });
+  return response.data;
+};
+
+export const getHourlyStatsByPage = async (pageRoute) => {
+  const response = await axios.get(`${API_URL}/statistics/hourly?pageRoute=${pageRoute}`);
+  return response.data;
+};
+
