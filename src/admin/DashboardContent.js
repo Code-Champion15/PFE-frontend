@@ -1,51 +1,41 @@
-import { Card, Box, Typography } from "@mui/material";
-import CardInfo from "../components/CardInfo";
-import BarChart from "../components/BarChart";
-import PieChart from "../components/PieChart";
+import { Card, Box, Typography, Grid } from "@mui/material";
+import DashboardStats from "../components/DashboardStats";
+import DashboardComparatif from "../components/DashboardComparatif";
+import DashboardHourlyChart from "../components/DashboardHourlyChart";
 
 const DashboardContent = () => {
     return (
-        <Card sx={{ width: "95%", boxShadow: 3, marginTop: "64px", marginLeft: "64px" }}>
-                    <Box sx={{ flexGrow: 1, p: 3 }}>
-                        <Typography variant="h3" sx={{ my: 2, textAlign: "center", color: "#F39325" }}>
-                            Dashboard
-                        </Typography>
-                        <Box
-                            display="grid"
-                            gridTemplateColumns="repeat(4, 1fr)"
-                            gap={3}
-                            sx={{ flexGrow: 1 }}
-                            justifyContent="space-around"
-                        >
-                            <Box>
-                                <CardInfo title="nb visiteurs totale" value={88} />
-                            </Box>
-                            <Box>
-                                <CardInfo title="nb visiteurs par mois" value={33} />
-                            </Box>
-                            <Box>
-                                <CardInfo title="nb visiteurs par semaine" value={11} />
-                            </Box>
-                            <Box>
-                                <CardInfo title="nb visiteurs par jour" value={11} />
-                            </Box>
-                        </Box>
-                        <Box display="grid" container gap={3} gridTemplateColumns="repeat(2, 1fr)" justifyContent="center" padding={4}>
-                            <Card sx={{ width: "500px", height: "280px" }}>
-                                <Box display="grid" item md={4}>
-                                    <BarChart />
-                                </Box>
-                            </Card>
-                            <Card sx={{ width: "500px", height: "280px" }}>
-                                <Box dislay="grid" item md={4}>
-                                    <PieChart />
-                                </Box>
-                            </Card>
+        <Box sx={{ width: "100%", px: 3, py: 2, ml: 5, mr: 3, mt: 5, backgroundColor: "#fafafa", }}>
+            <Typography
+                variant="h4"
+                sx={{ mb: 3, textAlign: "center", color: "#F39325", fontWeight: 600, fontFamily: "Poppins" }}>
+                Tableau de bord
+            </Typography>
 
-                        </Box>
-
+            {/* Ligne 1 : Globales + Comparatif */}
+            <Grid container spacing={2}>
+                {/* Colonne Gauche */}
+                <Grid item xs={12} md={6}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                        <Card sx={{ flex: 1, px: 2, py: 1.5, boxShadow: 2, borderRadius: 2, mb: 2 }}>
+                            <DashboardStats />
+                        </Card>
+                        <Card sx={{ flex: 1, px: 2, py: 1.5, boxShadow: 2, borderRadius: 2 }}>
+                            <DashboardHourlyChart />
+                        </Card>
                     </Box>
-                </Card>
+                </Grid>
+
+                {/* Colonne Droite */}
+                <Grid item xs={12} md={6}>
+                    <Card sx={{ height: '100%', px: 2, py: 1.5, boxShadow: 2, borderRadius: 2, minHeight: 640 }}>
+                        <DashboardComparatif />
+                    </Card>
+                </Grid>
+            </Grid>
+        </Box>
     );
 };
+
 export default DashboardContent;
+
