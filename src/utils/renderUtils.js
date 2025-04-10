@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Typography, Button, Box, Card, CardMedia, CardContent, Accordion, AccordionSummary, AccordionDetails, Paper } from "@mui/material"; 
+import { Container, Typography, Button, Box, Card, CardMedia, CardContent, Accordion, AccordionSummary, AccordionDetails, Paper, Grid } from "@mui/material"; 
 import EditableWrapper from "../components/EditableWrapper";
 
 
@@ -13,6 +13,7 @@ export const createElementFromJson = (element, key) => {
     button: Button,
     box: Box,
     card: Card,
+    grid: Grid,
     image: "img",
     paper: Paper,
     cardmedia: CardMedia,
@@ -50,6 +51,7 @@ export const createEditableElementFromJson = (element, path = "0", onSelect) => 
     button: Button,
     box: Box,
     card: Card,
+    grid: Grid,
     image: "img",
     cardmedia: CardMedia,
     cardcontent: CardContent,

@@ -76,7 +76,7 @@ const PageCreation = () => {
       //au debut avec content vide
       const newPage = await createPage({ ...pageData, route: formattedRoute, content: "" });
       console.log("Page ajoutée :", newPage);
-      navigate(`/admin/SultanChatbot/${newPage.id}`);
+      navigate(`/admin/SultanChatbot/${newPage.page.id}`);
     } catch (error) {
       console.error("Erreur lors de la création de la page :", error);
     }

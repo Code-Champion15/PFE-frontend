@@ -41,21 +41,21 @@ const PageRenderer = ({ route }) => {
 
     fetchContent();
 
-    return () => {
-      const endTime = Date.now();
-      trackVisit({
-        pageRoute: route,
-        startTime: startTimeRef.current,
-        endTime: endTime,
-        userId: null, // Remplacer par l'ID utilisateur si disponible
-      })
-      .then(() => {
-        console.log("Visite enregistré par la route:", route);
-      })
-      .catch(err => {
-        console.error("Erreur lors de l'enregistrement de la visite:", err);
-      });
-    };
+     return () => {
+       const endTime = Date.now();
+       trackVisit({
+         pageRoute: route,
+         startTime: startTimeRef.current,
+         endTime: endTime,
+         userId: null, // Remplacer par l'ID utilisateur si disponible
+       })
+       .then(() => {
+         console.log("Visite enregistré par la route:", route);
+       })
+       .catch(err => {
+         console.error("Erreur lors de l'enregistrement de la visite:", err);
+       });
+     };
   }, [route]);
 
   if (loading) return <p>Chargement..</p>;

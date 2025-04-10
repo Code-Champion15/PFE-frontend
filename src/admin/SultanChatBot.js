@@ -28,7 +28,8 @@ const SultanChatBot = () => {
   // Fonction pour mettre à jour le contenu de la page et naviguer vers SultanPreview
   const handleSuivant = async () => {
     try {
-      await updatePageContent(pageId, { content: code });
+      //await updatePageContent(pageId, { content: code });
+      await updatePageContent(pageId, code);
       navigate("/admin/SultanPreview"); 
     } catch (error) {
       console.error("Erreur lors de la mise à jour du contenu de la page :", error);
