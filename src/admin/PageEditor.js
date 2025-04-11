@@ -59,7 +59,7 @@ const PageEditor = ({ pageId, onBack }) => {
   };
 
   //récupérer le chemin de l'élément cliqué
-  const handleSelectElement = (path) => {
+  const handleSelectElement = (path, element) => {
     console.log("[PageEditor] Élément sélectionné, chemin :", path);
     setSelectedElementPath(path);
   };
@@ -83,14 +83,23 @@ const PageEditor = ({ pageId, onBack }) => {
     setSelectedElementPath(null);
   };
 
-  const handleAddElement = () => {
-    console.log("[PageEditor] Ajout d'un nouvel élément");
+  const handleAddElement = (path) => {
+    console.log("[PageEditor] Ajout d'un nouvel élément dans le container au path :", path);
     const newElement = {
       type: "typography",
       props: { text: "Nouvel élément", variant: "body1", color: "textPrimary" },
       children: "Nouvel élément"
     };
-    setContent([...content, newElement]);
+    if(path === "0") {
+      setContent(prev => [...prev, newElement]);
+    } else {
+      setContent(prev => addElementAtPath(prev,path, newElement));
+    }
+  };
+
+  const handleDuplicateElement = (path, element) => {
+    console.log("[PageEditor] duplication de l'element au path: ", path);
+    setContent(prev => duplicateElementAtPath(prev, path));
   };
 
   const handleDeleteElement = () => {
@@ -114,9 +123,42 @@ const PageEditor = ({ pageId, onBack }) => {
     }
   };
 
-  if (!effectivePageId) {
-    return <Typography>Veuillez sélectionner une page..</Typography>;
-  }
+  //fonc inserer un element dans un container selon le path
+  const addElementAtPath = (data, path, newElement) => {
+    const indices = path.split("-").map(Number);
+    const newData = [...data];
+    let parent = newData;
+    for (let i=0; i< indices.length; i++) {
+      if(i === indices.length -1) {
+        if(!parent[indices[i]].children) {
+          parent[indices[i]].children = [];
+        }
+        parent[indices[i]].children.push(newElement);
+      } else {
+        parent =parent[indices[i]].children;
+      }
+      
+    }
+    return newData;
+  };
+
+  //fonc dupliquer un element localisé par son path
+  const duplicateElementAtPath = (data, path) => {
+    const indices = path.split("-").map(Number);
+    const newData = [...data];
+    let parent = newData;
+    for (let i=0; i<indices.length -1; i++) {
+      parent = parent[indices[i]].children;
+    }
+    const indexToDuplicate = indices[indices.length - 1];
+    const elementToDuplicate = JSON.parse(JSON.stringify(parent[indexToDuplicate]));
+    parent.splice(indexToDuplicate + 1, 0, elementToDuplicate);
+    return newData;
+  };
+
+  // if (!effectivePageId) {
+  //   return <Typography>Veuillez sélectionner une page..</Typography>;
+  // }
 
   return (
     <Box>
@@ -144,7 +186,7 @@ const PageEditor = ({ pageId, onBack }) => {
 
       <Paper sx={{ p: 2, mb: 2, border: "1px solid gray" }}>
         {content.map((element, index) =>
-          createEditableElementFromJson(element, `${index}`, handleSelectElement)
+          createEditableElementFromJson(element, `${index}`, handleSelectElement, handleAddElement, handleDuplicateElement)
         )}
       </Paper>
 
@@ -175,7 +217,7 @@ const PageEditor = ({ pageId, onBack }) => {
         </Box>
       )}
 
-      <Button onClick={handleAddElement} variant="contained" color="secondary" sx={{ mr: 1 }}>
+      <Button onClick={handleAddElement.bind(null, "0")} variant="contained" color="secondary" sx={{ mr: 1 }}>
         Ajouter Élément
       </Button>
       <Button onClick={handleSave} variant="contained" color="success">

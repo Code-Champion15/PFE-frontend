@@ -68,5 +68,4 @@ const EditableElement = ({ initialProps, onSave, onCancel }) => {
     </Box>
   );
 };
-
 export default EditableElement;

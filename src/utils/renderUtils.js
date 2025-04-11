@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Typography, Button, Box, Card, CardMedia, CardContent, Accordion, AccordionSummary, AccordionDetails, Paper, Grid } from "@mui/material"; 
 import EditableWrapper from "../components/EditableWrapper";
 
-
 //pour la creation des pages
 export const createElementFromJson = (element, key) => {
   if (!element || !element.type) return null;
@@ -41,7 +40,7 @@ export const createElementFromJson = (element, key) => {
 };
 
 //pour le mode edit : les elements enveloppés
-export const createEditableElementFromJson = (element, path = "0", onSelect) => {
+export const createEditableElementFromJson = (element, path = "0", onSelect, onAdd, onDuplicate) => {
   if (!element || !element.type) return null;
 
   const componentsMap = {
@@ -67,14 +66,17 @@ export const createEditableElementFromJson = (element, path = "0", onSelect) => 
     children = element.children;
   } else if (Array.isArray(element.children)) {
     children = element.children.map((child, index) =>
-      createEditableElementFromJson(child, `${path}-${index}`, onSelect)
+      createEditableElementFromJson(child, `${path}-${index}`, onSelect, onAdd, onDuplicate)
     );
   }
+  const isContainer = element = element.type.toLowerCase() === "container";
   return (
-    <EditableWrapper onClick={(e) => { 
-      e.stopPropagation(); 
-      onSelect && onSelect(path);
-    }}
+    <EditableWrapper 
+    onEdit={(e) => { e && e.stopPropagation(); onSelect && onSelect(path, element); }}
+    onDuplicate={() => onDuplicate && onDuplicate(path, element)}
+    onAdd={() => onAdd && onAdd(path)}
+    isContainer={isContainer}
+    key={path}
     >
       <Component {...element.props}>
         {children}
