@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { getPageContentByRoute, trackVisit } from "../services/api";
 import { createElementFromJson } from "../utils/renderUtils";
-import axios from "axios";
 
 const PageRenderer = ({ route }) => {
   const [content, setContent] = useState(null);
@@ -12,7 +11,7 @@ const PageRenderer = ({ route }) => {
 
   useEffect(() => {
     startTimeRef.current = Date.now();
-    
+
     const fetchContent = async () => {
       setLoading(true);
 
@@ -41,21 +40,21 @@ const PageRenderer = ({ route }) => {
 
     fetchContent();
 
-     return () => {
-       const endTime = Date.now();
-       trackVisit({
-         pageRoute: route,
-         startTime: startTimeRef.current,
-         endTime: endTime,
-         userId: null, // Remplacer par l'ID utilisateur si disponible
-       })
-       .then(() => {
-         console.log("Visite enregistré par la route:", route);
-       })
-       .catch(err => {
-         console.error("Erreur lors de l'enregistrement de la visite:", err);
-       });
-     };
+    return () => {
+      const endTime = Date.now();
+      trackVisit({
+        pageRoute: route,
+        startTime: startTimeRef.current,
+        endTime: endTime,
+        userId: null, // Remplacer par l'ID utilisateur si disponible
+      })
+        .then(() => {
+          console.log("Visite enregistré par la route:", route);
+        })
+        .catch(err => {
+          console.error("Erreur lors de l'enregistrement de la visite:", err);
+        });
+    };
   }, [route]);
 
   if (loading) return <p>Chargement..</p>;

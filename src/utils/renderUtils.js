@@ -1,7 +1,7 @@
 import React from "react";
-import { Container, Typography, Button, Box, Card, CardMedia, CardContent, Accordion, AccordionSummary, AccordionDetails, Paper, Grid } from "@mui/material"; 
+import { Container, Typography, Button, Box, Card, CardMedia, CardContent, Accordion, AccordionSummary, AccordionDetails, Paper, Grid, AppBar, Toolbar } from "@mui/material"; 
 import EditableWrapper from "../components/EditableWrapper";
-
+import { Link } from "react-router-dom";
 //pour la creation des pages
 export const createElementFromJson = (element, key) => {
   if (!element || !element.type) return null;
@@ -20,6 +20,9 @@ export const createElementFromJson = (element, key) => {
     accordion: Accordion,
     accordionsummary:AccordionSummary,
     accordiondetails: AccordionDetails,
+    appBar: AppBar,
+    toolBar: Toolbar,
+    link: Link,
   };
 
   const Component = componentsMap[element.type.toLowerCase()] || "div";
@@ -30,7 +33,6 @@ export const createElementFromJson = (element, key) => {
   } else if (Array.isArray(children)) {
     children = children.map((child, index) => createElementFromJson(child, `${key}-${index}`));
   }
-
   return (
     <Component key={key} {...element.props}>
       {children}
@@ -38,7 +40,6 @@ export const createElementFromJson = (element, key) => {
     </Component>
   );
 };
-
 //pour le mode edit : les elements enveloppés
 export const createEditableElementFromJson = (element, path = "0", onSelect, onAdd, onDuplicate) => {
   if (!element || !element.type) return null;
@@ -57,6 +58,9 @@ export const createEditableElementFromJson = (element, path = "0", onSelect, onA
     accordion: Accordion,
     accordionsummary: AccordionSummary,
     accordiondetails: AccordionDetails,
+    appBar: AppBar,
+    link: Link,
+    toolBar: Toolbar,
   };
 
   const Component = componentsMap[element.type.toLowerCase()] || "div";
@@ -69,7 +73,7 @@ export const createEditableElementFromJson = (element, path = "0", onSelect, onA
       createEditableElementFromJson(child, `${path}-${index}`, onSelect, onAdd, onDuplicate)
     );
   }
-  const isContainer = element = element.type.toLowerCase() === "container";
+  const isContainer = element.type.toLowerCase() === "container";
   return (
     <EditableWrapper 
     onEdit={(e) => { e && e.stopPropagation(); onSelect && onSelect(path, element); }}
@@ -82,5 +86,6 @@ export const createEditableElementFromJson = (element, path = "0", onSelect, onA
         {children}
       </Component>
     </EditableWrapper>
+   
   );
 };

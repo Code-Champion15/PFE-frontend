@@ -3,6 +3,21 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000";
 
+export const generatePageFromPrompt = async (prompt) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/pages/generate`, { prompt },{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data.content;
+  } catch (error) {
+    console.error("Erreur lors de la génération de la page par prompt :", error);
+    throw error; 
+  }
+};
+
 export const getPages = async () => {
   try {
     const response = await axios.get(`${API_URL}/pages`);
