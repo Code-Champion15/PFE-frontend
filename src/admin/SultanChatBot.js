@@ -1,29 +1,31 @@
- import { Card, Typography, Grid2, Container, CardContent, Box, TextField, Button } from "@mui/material";
- import { useState, useEffect } from "react";
- import ArrowBackIcon from '@mui/icons-material/ArrowBack';
- import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
- import { useNavigate, useParams } from "react-router-dom";
- import { getPageContent, updatePageContent, generatePageFromPrompt, } from "../services/api"; 
- import { createElementFromJson } from "../utils/renderUtils";
+import { Card, Typography, Grid2, Container, CardContent, Box, TextField, Button } from "@mui/material";
+import { useState, useEffect } from "react";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useNavigate, useParams } from "react-router-dom";
+import { getPageContent, updatePageContent, generatePageFromPrompt, } from "../services/api";
+import { createElementFromJson } from "../utils/renderUtils";
+import DoneIcon from '@mui/icons-material/Done';
 
 const SultanChatBot = () => {
   //const [code, setCode] = useState(""); 
-  const { pageId } = useParams(); 
+  const { pageId } = useParams();
   const [prompt, setPrompt] = useState('');
   const [generatedContent, setGeneratedContent] = useState(null);
   const navigate = useNavigate();
 
   const handleGeneratedContent = async () => {
-    try{
+    try {
       const response = await generatePageFromPrompt(prompt);
+      console.log("contenu généré:", response);
       setGeneratedContent(response);
-    } catch(error){
+    } catch (error) {
       console.error("erreur lors de la generation du contenu", error);
     }
   };
 
   const handleUpdateContent = async () => {
-    try{
+    try {
       await updatePageContent(pageId, generatedContent);
       navigate(`/admin/SultanPreview/${pageId}`);
     } catch (error) {
@@ -56,14 +58,17 @@ const SultanChatBot = () => {
   //   }
   // };
 
-   const handlePrecedent = () => {
-     navigate(-1); 
-   };
+  const handlePrecedent = () => {
+    navigate(-1);
+  };
 
   return (
-    <Container sx={{ p: 10, bgcolor: "#f9f9f9", height: '600px'}}>
-      <Typography variant="h4" align="center" sx={{ color: "#747474", mb: 3}}>
-        SULTAN Chatbot
+    <Container sx={{ p: 10, bgcolor: "#f9f9f9", height: '600px' }}>
+      <Typography variant="h4" align="center" sx={{ color:"#F39325", mb: 3 }}>
+        Chatbot
+      </Typography>
+      <Typography variant="body1" align="center" sx={{ color: "#747474", mb: 3 }}>
+       Décrivez la page que vous souhaitez créer
       </Typography>
       <Container maxWidth="md" sx={{ mt: 4 }}>
         <Card>
@@ -79,36 +84,64 @@ const SultanChatBot = () => {
             />
           </CardContent>
         </Card>
-        {/* <Button variant="outlined"
-          sx={{ backgroundColor: '#F5F5F5', color: '#000', borderColor: '#1B374C', height: '40px', borderRadius: 5 }} onClick={handleGeneratedContent}>Générer</Button> */}
       </Container>
 
-       <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4, px:10}}>
-         <Button
+      <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4, px: 10 }}>
+        <Button
           variant="outlined"
           sx={{ backgroundColor: '#F5F5F5', color: '#000', borderColor: '#1B374C', height: '40px', borderRadius: 5 }}
           onClick={handlePrecedent}
         >
           <ArrowBackIcon /> Précédent
-        </Button> 
-         <Button
+        </Button>
+        <Button
           variant="contained"
           sx={{ backgroundColor: '#1B374C', color: '#FFF', height: '40px', borderRadius: 5 }}
           onClick={handleGeneratedContent}
         >
           Générer <ArrowForwardIcon />
-        </Button> 
+        </Button>
 
-      </Box> 
-      {generatedContent && (
+      </Box>
+       {/* {generatedContent && (
         <div>
           <h3>Prévisualisation :</h3>
           <div>{createElementFromJson(generatedContent, 'preview')}</div>
         </div>
       )}
+      <Button onClick={handleUpdateContent}>Valider</Button>  */}
 
-      <Button onClick={handleUpdateContent}>Valider</Button>
+       {/* Zone de prévisualisation */}
+       {generatedContent && (
+        <Box sx={{ mt: 6 , px: 5}}>
+          <Typography variant="h4" align="center" sx={{ color: "#747474", mb: 3 }} gutterBottom>
+            Prévisualisation :
+          </Typography>
+          <Box sx={{ p: 2, border: '1px solid #ddd', borderRadius: 2, backgroundColor: '#fff' }}>
+            {Array.isArray(generatedContent)
+              ? generatedContent.map((element, index) =>
+                  createElementFromJson(element, `preview-${index}`)
+                )
+              : createElementFromJson(generatedContent, 'preview')}
+          </Box>
+        </Box>
+      )}
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+        <Button variant="contained"  sx={{ 
+                        backgroundColor: '#1B374C', 
+                        color: '#FFF', 
+                        height: '40px', 
+                        borderRadius: 5 
+                        }} onClick={handleUpdateContent} >
+          Valider<span><DoneIcon/></span>
+
+        </Button>
+      </Box>
     </Container>
   );
 };
 export default SultanChatBot;
+
+
+
+

@@ -10,8 +10,8 @@ const Header = ({toggleSidebar}) => {
                 <IconButton edge="start" color="inherit" onClick={toggleSidebar}>
                     <MenuIcon />
                 </IconButton>
-                <Typography variant="h6" sx={{ flexGrow:1 }}>
-                    SULTAN ADMIN
+                <Typography variant="h6" sx={{ flexGrow:1, fontFamily: 'poppins' }}>
+                    EFFIA
                 </Typography>
                 <IconButton color="inherit">
                     <NotificationsIcon/>

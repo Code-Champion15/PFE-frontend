@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Typography, Button, Box, Card, CardMedia, CardContent, Accordion, AccordionSummary, AccordionDetails, Paper, Grid, AppBar, Toolbar } from "@mui/material"; 
+import { Container, Typography, Button, Box, Card, CardMedia, CardContent, Accordion, AccordionSummary, AccordionDetails, Paper, Grid, AppBar, Toolbar, Icon, List, ListItem } from "@mui/material"; 
 import EditableWrapper from "../components/EditableWrapper";
 import { Link } from "react-router-dom";
 //pour la creation des pages
@@ -23,6 +23,9 @@ export const createElementFromJson = (element, key) => {
     appBar: AppBar,
     toolBar: Toolbar,
     link: Link,
+    icon: Icon,
+    list: List,
+    listitem: ListItem,
   };
 
   const Component = componentsMap[element.type.toLowerCase()] || "div";
@@ -41,7 +44,8 @@ export const createElementFromJson = (element, key) => {
   );
 };
 //pour le mode edit : les elements enveloppés
-export const createEditableElementFromJson = (element, path = "0", onSelect, onAdd, onDuplicate) => {
+export const 
+createEditableElementFromJson = (element, path = "0", onSelect, onAdd, onDuplicate) => {
   if (!element || !element.type) return null;
 
   const componentsMap = {
@@ -61,6 +65,9 @@ export const createEditableElementFromJson = (element, path = "0", onSelect, onA
     appBar: AppBar,
     link: Link,
     toolBar: Toolbar,
+    icon: Icon,
+    list: List,
+    listitem: ListItem,
   };
 
   const Component = componentsMap[element.type.toLowerCase()] || "div";
