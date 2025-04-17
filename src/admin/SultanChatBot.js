@@ -1,5 +1,5 @@
-import { Card, Typography, Grid2, Container, CardContent, Box, TextField, Button } from "@mui/material";
-import { useState, useEffect } from "react";
+import { Card, Typography, Container, CardContent, Box, TextField, Button } from "@mui/material";
+import { useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from "react-router-dom";
 import { updatePageContent, generatePageFromPrompt, } from "../services/api";
@@ -40,7 +40,6 @@ const SultanChatBot = () => {
           return;
         }
       }
-
       await updatePageContent(pageId, contentToUpdate);
       navigate(`/admin/dashboard`);
     } catch (error) {

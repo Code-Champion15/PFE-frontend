@@ -6,7 +6,7 @@ const API_URL = "http://localhost:5000";
 export const generatePageFromPrompt = async (prompt) => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.post(`${API_URL}/pages/generate`, { prompt },{
+    const response = await axios.post(`${API_URL}/ai/generate`, { prompt },{
       headers: {
         Authorization: `Bearer ${token}`,
       },
