@@ -180,7 +180,7 @@ export const getPageContentByRoute = async (route) => {
 export const getModificationHistory = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.get(`${API_URL}/pages/history`, {
+    const response = await axios.get(`${API_URL}/modification/history`, {
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -192,6 +192,24 @@ export const getModificationHistory = async () => {
     throw error;
   }
 };
+
+export const getMyModificationHistory = async () => { 
+  try { 
+    const token = localStorage.getItem("token"); 
+    const response = await axios.get(`${API_URL}/modification/my-history`, {
+       headers: {
+        "Authorization": `Bearer ${token}`
+       }
+    }); 
+    console.log("Historique personnel récupéré :", response.data);
+    return response.data; 
+  } catch (error) {
+     console.error("Erreur lors de la récupération de l'historique personnel :", error);
+     throw error; 
+    }
+};
+
+
 
 export const registerUser = async (userData) => {
   try {

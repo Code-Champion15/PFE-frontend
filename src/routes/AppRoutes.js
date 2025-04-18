@@ -17,6 +17,8 @@ import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
 import PendingAdmins from "../admin/PendingAdmins";
 import PageGenerator from "../pages/PageGenerator";
+import ActivityLog from "../admin/ActivityLog";
+
 const DynamicPage = () => {
   const { route } = useParams(); 
   return <PageRenderer route={route} />;
@@ -52,9 +54,15 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
           <Route path="/admin/SultanPreview" element={<SultanPreview />} />
           <Route path="/admin/modify" element={<AdminModificationWizard />} />
           <Route path="/admin/history" element={<HistoryPage />} />
+          <Route path="/admin/my-history" element={<ActivityLog />} />
+
+          
+
           <Route path="/admin/pending-admins" element={<PendingAdmins/>} />
           <Route path="/admin/SultanPreview/:pageId" element={<SultanPreview/>} />
           {/* <Route path="/admin/generator" element={<PageGenerator/>}/> */}
+          
+
 
         </Routes>
       </Box>

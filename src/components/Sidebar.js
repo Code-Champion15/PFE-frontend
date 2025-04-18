@@ -4,6 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import HistoryIcon from '@mui/icons-material/History';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AddIcon from '@mui/icons-material/Add';
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 
@@ -38,6 +39,7 @@ const Sidebar = ({ open }) => {
                     { text: "Création", icon: <AddIcon />, path: "/admin/create" },
                     { text: "Modification", icon: <EditIcon />, path: "/admin/modify"  },
                     { text: "Historique", icon: <HistoryIcon /> , path:"/admin/history"},
+                    { text: "journal d'activité", icon: <WorkHistoryIcon/>, path:"/admin/my-history" },
                 ].map((item, index) => (
                     <Tooltip title={!open ? item.text : ""} placement="right" key={index}>
                         <ListItem button onClick={() => handleNavigation(item.path)}>

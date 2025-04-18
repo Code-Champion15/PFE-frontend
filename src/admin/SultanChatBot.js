@@ -57,6 +57,7 @@ const SultanChatBot = () => {
         try {
           const updatedContent = JSON.parse(editedCode);
           console.log("Code parsé avec succès, nouvelle version:", updatedContent);
+          alert("code JSON édité valide");
           setGeneratedContent(updatedContent);
           setViewMode("preview");
         } catch (e) {
