@@ -50,7 +50,14 @@ const ActivityLog = () => {
                                 history.map((mod) => (
 
                                     <TableRow key={mod.id}>
-                                        <TableCell>{mod.operationType === "creation" ? "Création" : "Modification"}</TableCell>
+                                        <TableCell>
+                                            {mod.operationType === "creation" && "Création"}
+                                            {mod.operationType === "supression" && "Suppression"}
+                                            {mod.operationType === "modification" && "Modification"}
+                                            {mod.operationType === "restauration" && "Restauration"}
+
+                                            
+                                        </TableCell>
                                         <TableCell>{mod.pageName || "Page inconnue"}</TableCell>
                                         <TableCell>
                                             {dayjs(mod.createdAt).format("DD/MM/YYYY HH:mm")}

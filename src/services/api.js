@@ -277,3 +277,34 @@ export const getHourlyStatsByPage = async (pageRoute) => {
   return response.data;
 };
 
+export const deletePage = async (pageId) => {
+  try {
+    const token = localStorage.getItem("token"); 
+    const response = await axios.delete(`${API_URL}/pages/delete/${pageId}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`, 
+      }
+    });
+    return response.data; 
+  } catch (error) {
+    throw new Error("Erreur lors de la suppression de la page");
+  }
+};
+
+export const restorePage = async (pageId) => {
+  const token = localStorage.getItem("token");
+  console.log("Token récupéré : ", token); 
+
+  try {
+    const response = await axios.put(`${API_URL}/pages/restore/${pageId}`, {}, {
+      headers: {
+        "Authorization": `Bearer ${token}`, 
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lors de la restauration :", error);
+    throw error; 
+  }
+ 
+};

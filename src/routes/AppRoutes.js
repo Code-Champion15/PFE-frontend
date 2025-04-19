@@ -18,6 +18,7 @@ import ResetPassword from "../pages/ResetPassword";
 import PendingAdmins from "../admin/PendingAdmins";
 import PageGenerator from "../pages/PageGenerator";
 import ActivityLog from "../admin/ActivityLog";
+import SupprimerPage from "../admin/SupprimerPage";
 
 const DynamicPage = () => {
   const { route } = useParams(); 
@@ -49,6 +50,7 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
           <Route path="/login/reset-password" element={<ResetPassword />} /> 
 
           <Route path="/admin/dashboard" element={<DashboardContent />} />
+          <Route path="/admin/delete" element={<SupprimerPage />} />
           <Route path="/admin/create" element={<PageCreation />} />
           <Route path="/admin/SultanChatbot/:pageId" element={<SultanChatbot />} />
           <Route path="/admin/SultanPreview" element={<SultanPreview />} />
