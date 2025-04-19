@@ -19,7 +19,7 @@ import PendingAdmins from "../admin/PendingAdmins";
 import PageGenerator from "../pages/PageGenerator";
 import ActivityLog from "../admin/ActivityLog";
 import SupprimerPage from "../admin/SupprimerPage";
-
+import VersionManager from "../admin/VersionManager";
 const DynamicPage = () => {
   const { route } = useParams(); 
   return <PageRenderer route={route} />;
@@ -57,6 +57,7 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
           <Route path="/admin/modify" element={<AdminModificationWizard />} />
           <Route path="/admin/history" element={<HistoryPage />} />
           <Route path="/admin/my-history" element={<ActivityLog />} />
+          <Route path="/admin/version-manager" element={<VersionManager/>} />
 
           
 

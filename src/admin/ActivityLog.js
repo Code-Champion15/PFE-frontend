@@ -55,6 +55,7 @@ const ActivityLog = () => {
                                             {mod.operationType === "supression" && "Suppression"}
                                             {mod.operationType === "modification" && "Modification"}
                                             {mod.operationType === "restauration" && "Restauration"}
+                                            {mod.operationType === "restauration-version" && "Restauration-version"}
 
                                             
                                         </TableCell>

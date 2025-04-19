@@ -308,3 +308,22 @@ export const restorePage = async (pageId) => {
   }
  
 };
+
+export const getPageVersions = async (pageId) => {
+  const token = localStorage.getItem("token");
+
+  const response = await axios.get(`${API_URL}/pages/${pageId}/versions`, { headers: { Authorization: `Bearer ${token}` } });
+  return response.data;
+};
+
+export const restoreVersion = async (pageId, versionId) => {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("Token manquant");
+
+  const response = await axios.put(
+    `${API_URL}/pages/${pageId}/versions/${versionId}/restore`,
+    {}, 
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  return response.data;
+};
