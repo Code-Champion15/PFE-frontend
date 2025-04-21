@@ -10,14 +10,14 @@ const AuthPage = ({ onLogin = () => { } }) => {
     email: "",
     password: "",
     role: "admin",
-    superadminKey: "",
+    //superadminKey: "",
   });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (isRegister && formData.role === "super-admin" && !formData.superadminKey.trim()) {
+    if (isRegister && formData.role === "super-admin") {
       alert("La clé Super Admin est requise pour créer un super administrateur.");
       return;
     }
@@ -27,7 +27,7 @@ const AuthPage = ({ onLogin = () => { } }) => {
         const response = await registerUser(formData);
         alert("Inscription réussie. Veuillez vous connecter.");
         setIsRegister(false);
-        setFormData({ username: "", email: "", password: "", role: "admin", superadminKey: "" });
+        setFormData({ username: "", email: "", password: "", role: "admin" });
       } else {
         const response = await loginUser(formData);
         localStorage.setItem("token", response.token);
@@ -48,7 +48,7 @@ const AuthPage = ({ onLogin = () => { } }) => {
 
   const toggleAuthMode = () => {
     setIsRegister(!isRegister);
-    setFormData({ username: "", email: "", password: "", role: "admin", superadminKey: "" });
+    setFormData({ username: "", email: "", password: "", role: "admin" });
   };
 
   return (
@@ -108,16 +108,16 @@ const AuthPage = ({ onLogin = () => { } }) => {
               <MenuItem value="super-admin">Super Admin</MenuItem>
             </TextField>
 
-            {formData.role === "super-admin" && (
+            {/* {formData.role === "super-admin" && (
               <TextField
                 label="Clé Super Admin"
                 value={formData.superadminKey}
-                onChange={(e) => setFormData({ ...formData, superadminKey: e.target.value })}
+                onChange={(e) => setFormData({ ...formData })}
                 fullWidth
                 sx={{ my: 1 }}
                 required
               />
-            )}
+            )} */}
 
             {!isRegister && (
               <Box sx={{ textAlign: "right", mt: 1, mb: 2 }}>

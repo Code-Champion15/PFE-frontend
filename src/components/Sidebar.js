@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import FolderDeleteIcon from '@mui/icons-material/FolderDelete';
 import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
+import GroupIcon from '@mui/icons-material/Group';
 import React from "react";
 
 import { useNavigate } from 'react-router-dom';
@@ -44,8 +45,8 @@ const Sidebar = ({ open }) => {
                     { text: "Supression", icon: < FolderDeleteIcon/>, path:"/admin/delete" },
                     { text: "Historique", icon: <HistoryIcon /> , path:"/admin/history"},
                     { text: "journal d'activité", icon: <WorkHistoryIcon/>, path:"/admin/my-history" },
-                    { text: "gestion des versions", icon: <ManageHistoryIcon/>, path:"/admin/version-manager"}
-                   
+                    { text: "gestion des versions", icon: <ManageHistoryIcon/>, path:"/admin/version-manager"},
+                    { test: "gestion des admins", icon: <GroupIcon/>, path:"/admins"},
 
                    
                 ].map((item, index) => (

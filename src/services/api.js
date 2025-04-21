@@ -327,3 +327,63 @@ export const restoreVersion = async (pageId, versionId) => {
   );
   return response.data;
 };
+
+export const logOut = () => {
+  localStorage.removeItem("token");
+  window.location.href = "/login"; 
+};
+
+
+export const getAdmins = async () => {
+  const token = localStorage.getItem("token");
+  const res = await axios.get(`${API_URL}/profils/admins`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return res.data;
+};
+
+export const getPendingAdmins = async () => {
+  const token = localStorage.getItem("token");
+  const res = await axios.get(`${API_URL}/profils/admins/pending`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return res.data;
+};
+
+export const createAdmin = async (payload) => {
+  const token = localStorage.getItem("token");
+  const res = await axios.post(`${API_URL}/profils/admins`, payload, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return res.data;
+};
+
+export const updateAdmin = async (id, payload) => {
+  const token = localStorage.getItem("token");
+  const res = await axios.put(`${API_URL}/profils/admins/${id}`, payload, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return res.data;
+};
+
+export const deleteAdmin = async (id) => {
+  const token = localStorage.getItem("token");
+  const res = await axios.delete(`${API_URL}/profils/admins/${id}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return res.data;
+};
+
+export const approveAdmin = async (id) => {
+  const token = localStorage.getItem("token");
+  const res = await axios.put(
+    `${API_URL}/profils/admins/approve/${id}`,
+    {}, // pas de body ici
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res.data;
+};

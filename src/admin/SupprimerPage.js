@@ -30,23 +30,22 @@ const SupprimerPage = () => {
     return tree;
   };
 
-  // Charger les pages depuis l'API au démarrage
+  
   useEffect(() => {
     const loadPages = async () => {
       try {
-        const pagesList = await fetchPages(); // Appel API pour récupérer la liste des pages
-        const treeData = buildTree(pagesList); // Transformer les pages en arbre
-        setFormattedPages(treeData); // Mettre à jour l'état avec les pages formatées
+        const pagesList = await fetchPages();
+        const treeData = buildTree(pagesList); 
+        setFormattedPages(treeData); 
       } catch (error) {
         console.error("[SupprimerPage] Erreur chargement pages:", error);
       }
     };
-    loadPages(); // Charger les pages
+    loadPages(); 
   }, []);
 
-  // Fonction pour gérer la sélection d'une page à supprimer
   const handleSelectNode = (node) => {
-    setSelectedPage(node); // Mettre à jour la page sélectionnée
+    setSelectedPage(node); 
   };
 
   // Fonction pour supprimer la page sélectionnée
@@ -78,8 +77,8 @@ const SupprimerPage = () => {
       )}
 
       <CustomTreeView
-        data={formattedPages} // Passer les données formatées pour l'affichage
-        onSelect={handleSelectNode} // Passer la fonction qui gère la sélection
+        data={formattedPages} 
+        onSelect={handleSelectNode} 
       />
 
       <Box sx={{ mt: 20 }}>
@@ -87,7 +86,7 @@ const SupprimerPage = () => {
           variant="contained"
           color="error"
           onClick={handleDeletePage}
-          disabled={!selectedPage} // Désactiver le bouton si aucune page n'est sélectionnée
+          disabled={!selectedPage} 
         >
           Supprimer la page
         </Button>

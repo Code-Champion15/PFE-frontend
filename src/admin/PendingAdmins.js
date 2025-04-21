@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, CircularProgress, Snackbar, Alert } from "@mui/material";
+import { approveAdmin } from "../services/api";
 
 const API_URL = "http://localhost:5000"; 
 
@@ -11,7 +12,14 @@ const PendingAdmins = () => {
 
   const fetchPendingAdmins = async () => {
     try {
-      const response = await axios.get(`${API_URL}/auth/pending-requests`);
+      const token = localStorage.getItem("token");
+      const response = await axios.get(`${API_URL}/profils/admins/pending`,
+        {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        }
+      );
       setPendingAdmins(response.data);
     } catch (error) {
       setSnackbar({ open: true, message: "Erreur lors du chargement", severity: "error" });
@@ -22,7 +30,7 @@ const PendingAdmins = () => {
 
   const handleApprove = async (id) => {
     try {
-      await axios.put(`${API_URL}/auth/approve/${id}`);
+      await approveAdmin(id);
       setSnackbar({ open: true, message: "Admin approuvé avec succès", severity: "success" });
       setPendingAdmins((prev) => prev.filter((admin) => admin.id !== id));
     } catch (error) {

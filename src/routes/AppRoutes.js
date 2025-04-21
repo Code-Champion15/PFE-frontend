@@ -9,7 +9,7 @@ import Sidebar from "../components/Sidebar";
 import SultanChatbot from "../admin/SultanChatBot";
 import SultanPreview from "../admin/SultanPreview";
 import PageRenderer from "../client/PageRenderer";
-import { useParams } from "react-router-dom"; 
+import { useParams } from "react-router-dom";
 import AdminModificationWizard from "../admin/AdminModificationWizard";
 import HistoryPage from "../pages/HistoryPage";
 import AuthPage from "../pages/AuthPage";
@@ -20,19 +20,23 @@ import PageGenerator from "../pages/PageGenerator";
 import ActivityLog from "../admin/ActivityLog";
 import SupprimerPage from "../admin/SupprimerPage";
 import VersionManager from "../admin/VersionManager";
+import AdminList from "../admin/AdminList";
+import Unauthorized from "../admin/Unauthorized";
+import RequireAuth from "../pages/RequireAuth";
+
 const DynamicPage = () => {
-  const { route } = useParams(); 
+  const { route } = useParams();
   return <PageRenderer route={route} />;
 };
 
 const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
   const location = useLocation();
-  const isAdminPage = location.pathname.startsWith("/admin"); 
+  const isAdminPage = location.pathname.startsWith("/admin");
   const isLoginPage = location.pathname.startsWith("/login");
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       {!isAdminPage && !isLoginPage && <Navbar />}
-      {isAdminPage &&  (
+      {isAdminPage && (
         <>
           <Header toggleSidebar={toggleSidebar} sx={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 10 }} />
           <Sidebar open={sidebarOpen} />
@@ -41,13 +45,13 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
 
       <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1, p: 2 }}>
         <Routes>
-         
+
           <Route path="/:route" element={<DynamicPage />} />
 
-         
+
           <Route path="/login" element={<AuthPage />} />
-          <Route path="/login/forgot-password" element={<ForgotPassword />} />    
-          <Route path="/login/reset-password" element={<ResetPassword />} /> 
+          <Route path="/login/forgot-password" element={<ForgotPassword />} />
+          <Route path="/login/reset-password" element={<ResetPassword />} />
 
           <Route path="/admin/dashboard" element={<DashboardContent />} />
           <Route path="/admin/delete" element={<SupprimerPage />} />
@@ -57,15 +61,26 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
           <Route path="/admin/modify" element={<AdminModificationWizard />} />
           <Route path="/admin/history" element={<HistoryPage />} />
           <Route path="/admin/my-history" element={<ActivityLog />} />
-          <Route path="/admin/version-manager" element={<VersionManager/>} />
-
+          <Route path="/admin/version-manager" element={<VersionManager />} />
           
+          <Route path="/admins" element={<AdminList/>} />
+          <Route path="/admins/pending" element={<PendingAdmins/>} />
 
-          <Route path="/admin/pending-admins" element={<PendingAdmins/>} />
-          <Route path="/admin/SultanPreview/:pageId" element={<SultanPreview/>} />
+          {/* <Route path="/admins/pending" element={<RequireAuth><PendingAdmins /></RequireAuth>} /> */}
+          <Route path="/admin/SultanPreview/:pageId" element={<SultanPreview />} />
           {/* <Route path="/admin/generator" element={<PageGenerator/>}/> */}
-          
 
+          {/* <Route path="/admins" element={<RequireAuth><AdminList /></RequireAuth>} />  */}
+
+          {/* <Route element={<RequireAuth role="super-admin" />}>
+            <Route path="/admins" element={<AdminList/>} />
+          </Route> */}
+          {/* <Route element={<RequireAuth role="super-admin" />}>
+            <Route path="/admins/pending" element={<PendingAdmins/>} />
+          </Route>  */}
+
+
+          <Route path="/unauthorized" element={<Unauthorized />} />
 
         </Routes>
       </Box>
