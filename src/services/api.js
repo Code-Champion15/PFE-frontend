@@ -102,7 +102,6 @@ export const getPageContent = async (id) => {
   }
 };
 
-
   // export const updatePageContent = async (pageId, contentData) => {
   //   try {
   //     const payload = { content: JSON.stringify(contentData) };
@@ -209,8 +208,6 @@ export const getMyModificationHistory = async () => {
     }
 };
 
-
-
 export const registerUser = async (userData) => {
   try {
     const payload = {
@@ -223,7 +220,6 @@ export const registerUser = async (userData) => {
     if (userData.role === "super-admin" && userData.superadminKey?.trim()) {
       payload.superadminKey = userData.superadminKey;
     }
-
     console.log("Payload envoyé:", payload);
 
     const response = await axios.post(`${API_URL}/auth/register`, payload, {
@@ -248,18 +244,18 @@ export const loginUser = async (credentials) => {
   }
 };
 
-// Fonction pour enregistrer une visite (trackVisit)
-export const trackVisit = async (data) => {
-  const response = await axios.post(`${API_URL}/statistics/track-visit`, data);
-  return response.data;
-};
+// Fonction pour enregistrer une visite 
+// export const trackVisit = async (data) => {
+//   const response = await axios.post(`${API_URL}/statistics/track-visit`, data);
+//   return response.data;
+// };
 
 export const getPageList = async () => {
   const response = await axios.get(`${API_URL}/pages/list`);
   return response.data;
 };
 
-// Fonction pour récupérer les statistiques d'une page (getStatsByPage)
+// Fonction pour récupérer les statistiques d'une page 
 export const getStatsByPage = async (pageRoute) => {
   const response = await axios.get(`${API_URL}/statistics/stats-by-page`, {
     params: { pageRoute },
@@ -267,15 +263,15 @@ export const getStatsByPage = async (pageRoute) => {
   return response.data;
 };
 
-export const getAllStats = async (params = {}) => {
-  const response = await axios.get(`${API_URL}/statistics/stats-all`, { params });
-  return response.data;
-};
+// export const getAllStats = async (params = {}) => {
+//   const response = await axios.get(`${API_URL}/statistics/stats-all`, { params });
+//   return response.data;
+// };
 
-export const getHourlyStatsByPage = async (pageRoute) => {
-  const response = await axios.get(`${API_URL}/statistics/hourly?pageRoute=${pageRoute}`);
-  return response.data;
-};
+// export const getHourlyStatsByPage = async (pageRoute) => {
+//   const response = await axios.get(`${API_URL}/statistics/hourly?pageRoute=${pageRoute}`);
+//   return response.data;
+// };
 
 export const deletePage = async (pageId) => {
   try {
@@ -333,7 +329,6 @@ export const logOut = () => {
   window.location.href = "/login"; 
 };
 
-
 export const getAdmins = async () => {
   const token = localStorage.getItem("token");
   const res = await axios.get(`${API_URL}/profils/admins`, {
@@ -378,7 +373,7 @@ export const approveAdmin = async (id) => {
   const token = localStorage.getItem("token");
   const res = await axios.put(
     `${API_URL}/profils/admins/approve/${id}`,
-    {}, // pas de body ici
+    {}, 
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -387,3 +382,251 @@ export const approveAdmin = async (id) => {
   );
   return res.data;
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+const getAuthHeaders = () => {
+  const token = localStorage.getItem("token"); 
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};
+
+// Liste des fichiers JS (sans .js)
+export const fetchFileList = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/files/list`, getAuthHeaders());
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lors de la récupération de la liste :", error);
+    throw new Error("Impossible de charger la liste des fichiers.");
+  }
+};
+
+// Lire un fichier
+export const getPageCode = async (pageName) => {
+  try {
+    const response = await axios.get(`${API_URL}/api/files/${pageName}`, getAuthHeaders());
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lecture fichier :", error);
+    throw new Error("Impossible de lire le fichier.");
+  }
+};
+
+// Sauvegarder un fichier
+export const updatePageCode = async (pageName, content) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/files/${pageName}`,{ content },getAuthHeaders());
+    return response.data;
+  } catch (error) {
+    console.error("Erreur mise à jour fichier :", error);
+    throw new Error("Échec de la sauvegarde.");
+  }
+};
+
+export const generateCodeFromPrompt = async (prompt) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/files/generate`, { prompt },getAuthHeaders());
+    console.log("Réponse complète de l'API :", response);
+
+    console.log("Code généré :", response.data.code);
+    return response.data.code;
+  } catch (error) {
+    console.error("Erreur lors de la génération du code :", error);
+    throw new Error("Impossible de générer le code.");
+  }
+};
+
+//creation d'un fichier 
+// export const createFile = async ({ pageName, code }) => {
+//   return axios.post(`${API_URL}/api/files/createFile`, {
+//     pageName,
+//     code
+//   }, getAuthHeaders());
+// };
+
+export const generateEdit = async ({ fileName, fileContent, instruction }) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/api/files/ai/generate`,
+      { fileName, fileContent, instruction },
+      {
+        headers: {
+          "Content-Type": "application/json", "Authorization": `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data.newCode;
+  } catch (err) {
+    console.error("Erreur generateEdit:", err);
+    throw new Error(err.response?.data?.error || "Échec de la génération IA.");
+  }
+};
+
+export const saveEdit = async ({ fileName, oldCode, newCode, instruction }) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.post(`${API_URL}/api/files/ai/save`,
+      { fileName, oldCode, newCode, instruction },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    console.error("Erreur saveEdit:", err);
+    throw new Error(err.response?.data?.error || "Échec de la sauvegarde.");
+  }
+};
+
+export const savePageCode = async (pageName, code) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/files/savePageCode`, {pageName,code}, getAuthHeaders());
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lors de la sauvegarde du code :", error);
+    throw new Error("Impossible de sauvegarder le code.");
+  }
+};
+//api ia creation
+
+export const createFile = async ({ pageName, code }) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/files/createFile`, {pageName,code}, getAuthHeaders());
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la création du fichier :', error);
+    throw error;
+  }
+};
+
+//ai creation
+export const generateCode = async (prompt) => {
+  try {
+    const response = await axios.post(`${API_URL}/ai/generateCode`, {prompt}, getAuthHeaders());
+    return response.data.code;
+  } catch (error) {
+    console.error('Erreur lors de la génération du code par l’IA :', error);
+    throw error;
+  }
+};
+
+//histo
+export const getAllOperations = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/operations`);
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la récupération de toutes les opérations:', error);
+    throw error;
+  }
+};
+
+//journal
+export const getMyOperations = async () => {
+  try{
+  const response = await axios.get(`${API_URL}/operations/myOperations`, getAuthHeaders());
+  return response.data;
+  }catch (error) {
+    console.error("Erreur lors de laffichage de mon journal:",error);
+    throw error;
+  }
+};
+
+//trackVisit
+export const trackVisit = async ({pageName, startTime, endTime}) => {
+  try {
+    const response = await axios.post(`${API_URL}/visites/trackVisit/${pageName}`,{startTime, endTime}, getAuthHeaders());
+    return response.data; // Retourne la réponse, si nécessaire
+  } catch (error) {
+    console.error('Erreur lors de l\'enregistrement de la visite:', error);
+    throw error; // Propager l'erreur pour être traitée ailleurs
+  }
+};
+
+// Fonction pour obtenir les statistiques par fichier (page)
+// export const getStatsByFile = async (pageName) => {
+//   try {
+//     const response = await axios.get(`${API_URL}/visits/statsByFile/${pageName}`);
+//     return response.data;
+//   } catch (error) {
+//     console.error('Erreur lors de la récupération des statistiques par fichier', error);
+//     throw error;
+//   }
+// };
+export const getStatsByFile = async (params) => {
+  try {
+    const response = await axios.get(`${API_URL}/visites/stats`, { params });  // Passe les params dans la requête
+    return response.data;  // Retourne les données récupérées
+  } catch (error) {
+    console.error('Erreur récupération stats par fichier:', error);
+    throw error;  // Gère l'erreur
+  }
+};
+
+// Fonction pour obtenir toutes les statistiques
+// export const getAllStats = async () => {
+//   try {
+//     const response = await axios.get(`${API_URL}/visits/allStats`);
+//     return response.data;
+//   } catch (error) {
+//     console.error('Erreur lors de la récupération des statistiques globales', error);
+//     throw error;
+//   }
+// };
+
+export const getAllStats = async (params = {}) => {
+  try {
+    const response = await axios.get(`${API_URL}/visites/allStats`, { params }); 
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la récupération des statistiques par page:', error);
+    throw error;
+  }
+};
+
+// // Fonction pour obtenir les statistiques horaires par fichier (page)
+// export const getHourlyStatsByFile = async (pageName) => {
+//   try {
+//     const response = await axios.get(`${API_URL}/visits/hourly/${pageName}`);
+//     return response.data;
+//   } catch (error) {
+//     console.error('Erreur lors de la récupération des statistiques horaires par fichier', error);
+//     throw error;
+//   }
+// };
+export const getHourlyStatsByPage = async (pageName) => {
+  const response = await axios.get(`${API_URL}/visites/hourlyStats/${pageName}`,getAuthHeaders());
+  return response.data;
+};
+
+export const getVisitTimes = async (pageName) => {
+  try {
+    const response = await axios.get(`${API_URL}/visites/${pageName}`);
+    return response.data.visitTimes;  // Retourner uniquement les horaires de visite
+  } catch (err) {
+    console.error('Erreur lors de la récupération des horaires de visite', err);
+    throw err;  // Propager l'erreur
+  }
+};
+
+export const fetchFileListDash = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/files/listDash`, getAuthHeaders());
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lors de la récupération de la liste :", error);
+    throw new Error("Impossible de charger la liste des fichiers.");
+  }
+};
+
+
+
+
+

@@ -23,6 +23,12 @@ import VersionManager from "../admin/VersionManager";
 import AdminList from "../admin/AdminList";
 import Unauthorized from "../admin/Unauthorized";
 import RequireAuth from "../pages/RequireAuth";
+import EditFilePage from "../pages/admin/EditFilePage";
+import DynamiquePage from "./DynamiquePage";
+import AdminCreatePage from "../pages/admin/AdminCreatePage";
+
+import Parking from "../pages/Parking";
+import PagePreviewInterface from "../pages/admin/PagePreviewInterface";
 
 const DynamicPage = () => {
   const { route } = useParams();
@@ -46,8 +52,7 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
       <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1, p: 2 }}>
         <Routes>
 
-          <Route path="/:route" element={<DynamicPage />} />
-
+          {/* <Route path="/:route" element={<DynamicPage />} /> */}
 
           <Route path="/login" element={<AuthPage />} />
           <Route path="/login/forgot-password" element={<ForgotPassword />} />
@@ -62,26 +67,25 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
           <Route path="/admin/history" element={<HistoryPage />} />
           <Route path="/admin/my-history" element={<ActivityLog />} />
           <Route path="/admin/version-manager" element={<VersionManager />} />
-          
-          <Route path="/admins" element={<AdminList/>} />
-          <Route path="/admins/pending" element={<PendingAdmins/>} />
 
-          {/* <Route path="/admins/pending" element={<RequireAuth><PendingAdmins /></RequireAuth>} /> */}
+          <Route path="/admins" element={<AdminList />} />
+          <Route path="/admins/pending" element={<PendingAdmins />} />
+
           <Route path="/admin/SultanPreview/:pageId" element={<SultanPreview />} />
           {/* <Route path="/admin/generator" element={<PageGenerator/>}/> */}
 
-          {/* <Route path="/admins" element={<RequireAuth><AdminList /></RequireAuth>} />  */}
-
-          {/* <Route element={<RequireAuth role="super-admin" />}>
-            <Route path="/admins" element={<AdminList/>} />
-          </Route> */}
-          {/* <Route element={<RequireAuth role="super-admin" />}>
-            <Route path="/admins/pending" element={<PendingAdmins/>} />
-          </Route>  */}
-
-
           <Route path="/unauthorized" element={<Unauthorized />} />
 
+          {/****************************************************************************************** */}
+          <Route path="/preview" element={<PagePreviewInterface />} />
+          <Route path="/admin/editfile" element={<EditFilePage />} />
+
+          <Route path="/admin/createFile" element={<AdminCreatePage />} />
+          {/* <Route path="/page/:pageName" element={<DynamiquePage />} /> */}
+
+           Page 404 pour routes non trouvées 
+          <Route path="*" element={<div>Page non trouvée</div>} />
+          <Route path="/:pageName" element={<DynamiquePage />} /> 
         </Routes>
       </Box>
     </Box>

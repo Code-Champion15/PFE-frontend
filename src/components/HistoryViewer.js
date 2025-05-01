@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getModificationHistory, restorePage } from "../services/api";
+import { getAllOperations } from "../services/api";
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
   IconButton, TextField, Select, MenuItem, InputLabel, FormControl
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import RestoreIcon from "@mui/icons-material/Restore";
 
 const HistoryViewer = () => {
   const [history, setHistory] = useState([]);
@@ -17,7 +16,7 @@ const HistoryViewer = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const data = await getModificationHistory();
+        const data = await getAllOperations();
         setHistory(data);
       } catch (error) {
         console.error("Erreur lors du chargement de l'historique :", error);
@@ -26,46 +25,20 @@ const HistoryViewer = () => {
     fetchHistory();
   }, []);
 
-  // Filtrage des résultats
-  const filteredHistory = history.filter(mod => {
+  const filteredHistory = history.filter((mod) => {
+    const fileName = mod.fileName || "";
+    const operationType = mod.operationType || "";
+    const username = mod.username || "";
+
     return (
-      mod.pageName.toLowerCase().includes(pageFilter.toLowerCase()) &&
-      (operationFilter === "" || mod.operationType === operationFilter) &&
-      mod.userName.toLowerCase().includes(userFilter.toLowerCase())
+      fileName.toLowerCase().includes(pageFilter.toLowerCase()) &&
+      (operationFilter === "" || operationType === operationFilter) &&
+      username.toLowerCase().includes(userFilter.toLowerCase())
     );
   });
 
-  const handleDelete = (modificationId) => {
-    // Implémentez ici la suppression si nécessaire.
-    alert(`Supprimer la modification ${modificationId} (fonctionnalité à implémenter)`);
-  };
-
-  const handleViewDetails = (modification) => {
-    alert(`Détails:
-  Opération: ${modification.operationType}
-  Utilisateur: ${modification.userName}
-  Page: ${modification.pageName}
-  Date: ${new Date(modification.createdAt).toLocaleString()}
-  Ancien Contenu: ${modification.oldContent}
-  Nouveau Contenu: ${modification.newContent}`);
-  };
-
-  const handleRestorePage = async (pageId) => {
-    try {
-      await restorePage(pageId);
-      alert("Page restaurée avec succès");
-      // Recharge l'historique
-      const data = await getModificationHistory();
-      setHistory(data);
-    } catch (error) {
-      console.error("Erreur lors de la restauration :", error);
-      alert("Échec de la restauration.");
-    }
-  };
-
   return (
     <Paper sx={{ ml: 5, p: 2 }}>
-      {/*<h2 style={{color: "#F39325"}}>Historique des Créations & Modifications</h2>*/}
       <FormControl sx={{ mr: 2, minWidth: 150 }}>
         <TextField
           label="Nom de la page"
@@ -84,7 +57,6 @@ const HistoryViewer = () => {
           <MenuItem value="">Tous</MenuItem>
           <MenuItem value="creation">Création</MenuItem>
           <MenuItem value="modification">Modification</MenuItem>
-          <MenuItem value="supression">Supression</MenuItem>
         </Select>
       </FormControl>
       <FormControl sx={{ mr: 2, minWidth: 150 }}>
@@ -94,6 +66,7 @@ const HistoryViewer = () => {
           onChange={(e) => setUserFilter(e.target.value)}
         />
       </FormControl>
+
       <TableContainer component={Paper} sx={{ mt: 2 }}>
         <Table>
           <TableHead>
@@ -102,34 +75,30 @@ const HistoryViewer = () => {
               <TableCell>Utilisateur</TableCell>
               <TableCell>Page</TableCell>
               <TableCell>Date</TableCell>
-              <TableCell align="center">Actions</TableCell>
+              {/* <TableCell align="center">Actions</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
             {filteredHistory.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} align="center">Aucune modification trouvée.</TableCell>
+                <TableCell colSpan={5} align="center">Aucune opération trouvée.</TableCell>
               </TableRow>
             ) : (
               filteredHistory.map((mod) => (
                 <TableRow key={mod.id}>
                   <TableCell>{mod.operationType}</TableCell>
-                  <TableCell>{mod.userName}</TableCell>
-                  <TableCell>{mod.pageName}</TableCell>
+                  <TableCell>{mod.username}</TableCell>
+                  <TableCell>{mod.fileName}</TableCell>
                   <TableCell>{new Date(mod.createdAt).toLocaleString()}</TableCell>
-                  <TableCell align="center">
-                    <IconButton onClick={() => handleViewDetails(mod)} color="primary">
+                  {/* <TableCell align="center">
+                    {/* Actions, tu peux activer si tu veux */}
+                    {/* <IconButton color="primary">
                       <VisibilityIcon />
                     </IconButton>
-                    <IconButton onClick={() => handleDelete(mod.id)} color="error">
+                    <IconButton color="error">
                       <DeleteIcon />
-                    </IconButton>
-                    {mod.operationType === "supression" && (
-                      <IconButton onClick={() => handleRestorePage(mod.pageId)} color="success">
-                        <RestoreIcon />
-                      </IconButton>
-                    )}
-                  </TableCell>
+                    </IconButton> 
+                  </TableCell> */}
                 </TableRow>
               ))
             )}

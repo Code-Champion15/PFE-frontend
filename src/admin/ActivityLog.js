@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getMyModificationHistory } from "../services/api";
+import { getMyOperations } from "../services/api";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, CircularProgress, Box } from "@mui/material";
 import dayjs from "dayjs";
 
@@ -10,9 +10,9 @@ const ActivityLog = () => {
     useEffect(() => {
         const fetchHistory = async () => {
             try {
-                const data = await getMyModificationHistory();
-                console.log(data);
-                setHistory(data.data);
+                const data = await getMyOperations();
+                console.log("Données récupérées:", data);
+                setHistory(data); 
             } catch (err) {
                 console.error("Erreur :", err);
             } finally {
@@ -40,7 +40,7 @@ const ActivityLog = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {history.length === 0 ? (
+                            {Array.isArray(history) && history.length === 0 ? (
                                 <TableRow>
                                     <TableCell colSpan={3} align="center">
                                         Aucune activité trouvée.
@@ -48,18 +48,12 @@ const ActivityLog = () => {
                                 </TableRow>
                             ) : (
                                 history.map((mod) => (
-
                                     <TableRow key={mod.id}>
                                         <TableCell>
                                             {mod.operationType === "creation" && "Création"}
-                                            {mod.operationType === "supression" && "Suppression"}
                                             {mod.operationType === "modification" && "Modification"}
-                                            {mod.operationType === "restauration" && "Restauration"}
-                                            {mod.operationType === "restauration-version" && "Restauration-version"}
-
-                                            
                                         </TableCell>
-                                        <TableCell>{mod.pageName || "Page inconnue"}</TableCell>
+                                        <TableCell>{mod.fileName || "Fichier inconnu"}</TableCell>
                                         <TableCell>
                                             {dayjs(mod.createdAt).format("DD/MM/YYYY HH:mm")}
                                         </TableCell>

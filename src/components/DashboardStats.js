@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { getPageList, getStatsByPage } from "../services/api";
+// DashboardStats.js
+import React, { useEffect, useState } from 'react';
+import { fetchFileList, getStatsByFile } from '../services/api';
 import {
   LineChart,
   Line,
@@ -8,7 +9,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-} from "recharts";
+} from 'recharts';
 import {
   Box,
   Typography,
@@ -17,103 +18,82 @@ import {
   FormControl,
   InputLabel,
   Paper,
-} from "@mui/material";
+} from '@mui/material';
 
 const DashboardStats = () => {
-  const [pageList, setPageList] = useState([]);
-  const [selectedPage, setSelectedPage] = useState("");
+  const [fileList, setFileList] = useState([]);
+  const [selectedFile, setSelectedFile] = useState('');
   const [stats, setStats] = useState([]);
 
   useEffect(() => {
-    const fetchPages = async () => {
+    const fetchFiles = async () => {
       try {
-        const pages = await getPageList();
-        setPageList(pages);
-        if (pages.length > 0) {
-          setSelectedPage(pages[0].route);
-        }
+        const fileList = await fetchFileList();
+        setFileList(fileList);
       } catch (err) {
-        console.error("Erreur récupération pages :", err);
+        console.error('Erreur chargement des pages', err);
       }
-    };
-    fetchPages();
+    }
+
+    fetchFiles();
   }, []);
 
   useEffect(() => {
     const fetchStats = async () => {
-      if (!selectedPage) return;
+      if (!selectedFile) return;
       try {
-        const data = await getStatsByPage(selectedPage);
+        // Appel à l'API pour récupérer les stats du fichier sélectionné
+        const data = await getStatsByFile({ pageName: selectedFile });
         const formatted = data.map((item) => ({
           visitDate: item.visitDate,
           visits: parseInt(item.visits, 10),
         }));
-        setStats(formatted);
+        setStats(formatted);  // Mettre à jour les stats avec les données formatées
       } catch (err) {
-        console.error("Erreur récupération stats :", err);
+        console.error('Erreur récupération stats:', err);
       }
     };
     fetchStats();
-  }, [selectedPage]);
+  }, [selectedFile]);
 
   return (
     <Box sx={{ px: 4, py: 3 }}>
-      <Typography variant="h6" fontWeight={600} fontFamily='poppins' mb={3} align="center" sx={{color: "#1976D2"}}>
-        Statistiques globales de visites par page
+      <Typography variant="h6" fontWeight={600} fontFamily="poppins" mb={3} align="center" sx={{ color: "#1976D2" }}>
+        Statistiques globales de visites par fichier
       </Typography>
 
-      {/* <Paper
-        elevation={1}
-        sx={{
-          p: 3,
-          borderRadius: 2,
-          backgroundColor: "#ffffff",
-          boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-        }}
-      > */}
-        <FormControl  size="small" sx={{ mb: 3,  minWidth: 140 }}>
-          <InputLabel id="page-select-label">Page</InputLabel>
-          <Select
-            labelId="page-select-label"
-            value={selectedPage}
-            label="Page"
-            onChange={(e) => setSelectedPage(e.target.value)}
-            sx={{ borderRadius: 2 }}
-          >
-            {pageList.map((page) => (
-              <MenuItem key={page.route} value={page.route}>
-                {page.name || page.route}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+      <FormControl size="small" sx={{ mb: 3, minWidth: 140 }}>
+        <InputLabel id="file-select-label">Fichier</InputLabel>
+        <Select
+          labelId="file-select-label"
+          value={selectedFile}
+          label="Fichier"
+          onChange={(e) => setSelectedFile(e.target.value)}
+          sx={{ borderRadius: 2 }}
+        >
+          {fileList.map((file) => (
+            <MenuItem key={file.fileName} value={file.fileName}>
+              {file.fileName}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
 
-        {stats.length > 0 ? (
-          <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={stats}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-              <XAxis dataKey="visitDate" stroke="#888" />
-              <YAxis allowDecimals={false} stroke="#888" />
-              <Tooltip
-                contentStyle={{ borderRadius: 8, fontSize: 13 }}
-                labelStyle={{ fontWeight: 500 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="visits"
-                stroke="#2196f3"
-                strokeWidth={2}
-                dot={{ r: 3 }}
-                activeDot={{ r: 5 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        ) : (
-          <Typography color="text.secondary" fontStyle="italic">
-            Aucune donnée disponible pour cette page.
-          </Typography>
-        )}
-      {/* </Paper> */}
+      {stats.length > 0 ? (
+        <ResponsiveContainer width="100%" height={200}>
+          <LineChart data={stats}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+            <XAxis dataKey="visitDate" stroke="#888" />
+            <YAxis allowDecimals={false} stroke="#888" />
+            <Tooltip contentStyle={{ borderRadius: 8, fontSize: 13 }} />
+            <Line type="monotone" dataKey="visits" stroke="#8884d8" />
+          </LineChart>
+        </ResponsiveContainer>
+      ) : (
+        <Typography variant="body2" sx={{ color: "gray" }}>
+          Aucune donnée à afficher pour ce fichier.
+        </Typography>
+      )}
     </Box>
   );
 };
