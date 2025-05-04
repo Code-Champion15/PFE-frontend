@@ -4,7 +4,7 @@ import { generateCodeFromPrompt, getPageCode, savePageCode } from '../services/a
 import * as Babel from '@babel/standalone';
 import * as MUI from '@mui/material';
 const { ThemeProvider, createTheme, CssBaseline } = MUI;
-
+//import Box from '@mui/material';
 const EditablePreview = ({ pageName }) => {
     const [instructions, setInstructions] = useState('');
     const [originalCode, setOriginalCode] = useState('');
@@ -178,22 +178,23 @@ const EditablePreview = ({ pageName }) => {
     };
 
     return (
-        <div style={{ marginTop: '2rem' }}>
-            <h3>Instructions IA</h3>
-            <textarea
+        <MUI.Box sx={{ marginTop: '2rem' }}>
+            <MUI.Typography variant="h6">Décrire ce que vous souhaitez modifier</MUI.Typography>
+            <MUI.TextField
+            fullWidth
+            multiline
                 rows="4"
                 value={instructions}
                 onChange={(e) => setInstructions(e.target.value)}
                 placeholder="Ex : Ajoute une image au-dessus du titre"
-                style={{ width: '100%', marginBottom: '1rem' }}
+                sx={{marginBottom: '1rem' }}
             />
-            <div style={{ display: 'flex', gap: '10px' }}>
-                <button onClick={handleGeneratePreview} disabled={!originalCode || !instructions}>Générer la prévisualisation</button>
-                <button onClick={handleSave}>Sauvegarder les modifications</button>
-            </div>
+            <MUI.Box sx={{ display: 'flex', justifyContent:'center', gap: '10px' }}>
+                <MUI.Button onClick={handleGeneratePreview} disabled={!originalCode || !instructions} variant="contained" sx={{borderRadius:'20px', padding:'10px 30px', width:'auto', backgroundColor:"#1B374C"}}>Générer la prévisualisation</MUI.Button>
+            </MUI.Box>
             {error && <div style={{ color: 'red', marginTop: '1rem' }}>{error}</div>}
             {successMsg && <div style={{ color: 'green', marginTop: '1rem' }}>{successMsg}</div>}
-            <div style={{ border: '1px solid #ddd', marginTop: '2rem', padding: '1rem' }}>
+            <MUI.Box sx={{ border: '1px solid #ddd', marginTop: '2rem', padding: '1rem' }}>
                 {PreviewComponent
                     ? (
                         <ThemeProvider theme={theme}>
@@ -203,8 +204,12 @@ const EditablePreview = ({ pageName }) => {
                     )
                     : <em>Aucune prévisualisation disponible</em>
                 }
-            </div>
-        </div>
+            </MUI.Box>
+            <MUI.Box sx={{ display: 'flex', justifyContent:'center',marginTop:'1rem', gap: '10px' }}>
+            <MUI.Button onClick={handleSave} variant="contained" sx={{borderRadius:'20px', padding:'10px 30px',backgroundColor: "#F39325", marginTop:'1rem'}}>Sauvegarder les modifications</MUI.Button>
+            </MUI.Box>
+            
+        </MUI.Box>
     );
 };
 

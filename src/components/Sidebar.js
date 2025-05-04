@@ -8,6 +8,7 @@ import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import FolderDeleteIcon from '@mui/icons-material/FolderDelete';
 import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 import GroupIcon from '@mui/icons-material/Group';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import React from "react";
 
 import { useNavigate } from 'react-router-dom';
@@ -40,8 +41,9 @@ const Sidebar = ({ open }) => {
             <List sx={{ display: 'flex', flexDirection: 'column', height: '100%', marginTop: '64px' }}>
                 {[
                     { text: "Tableau de bord", icon: <DashboardIcon />, path: "/admin/dashboard" },
-                    { text: "Création", icon: <AddIcon />, path: "/admin/create" },
-                    { text: "Modification", icon: <EditIcon />, path: "/admin/modify"  },
+                    { text: "Importer un projet", icon: <CloudUploadIcon/>, path:"/admin/upload"},
+                    { text: "Création", icon: <AddIcon />, path: "/admin/createFile" },
+                    { text: "Modification", icon: <EditIcon />, path: "/admin/editfile"  },
                     { text: "Supression", icon: < FolderDeleteIcon/>, path:"/admin/delete" },
                     { text: "Historique", icon: <HistoryIcon /> , path:"/admin/history"},
                     { text: "journal d'activité", icon: <WorkHistoryIcon/>, path:"/admin/my-history" },

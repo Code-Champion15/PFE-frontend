@@ -29,6 +29,8 @@ import AdminCreatePage from "../pages/admin/AdminCreatePage";
 
 import Parking from "../pages/Parking";
 import PagePreviewInterface from "../pages/admin/PagePreviewInterface";
+import ProjectUpload from "../admin/ProjectUpload";
+import { ProjectProvider } from "../contexts/ProjectContext";
 
 const DynamicPage = () => {
   const { route } = useParams();
@@ -50,6 +52,7 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
       )}
 
       <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1, p: 2 }}>
+        <ProjectProvider>
         <Routes>
 
           {/* <Route path="/:route" element={<DynamicPage />} /> */}
@@ -77,6 +80,7 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
           <Route path="/unauthorized" element={<Unauthorized />} />
 
           {/****************************************************************************************** */}
+          
           <Route path="/preview" element={<PagePreviewInterface />} />
           <Route path="/admin/editfile" element={<EditFilePage />} />
 
@@ -86,7 +90,9 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
            Page 404 pour routes non trouvées 
           <Route path="*" element={<div>Page non trouvée</div>} />
           <Route path="/:pageName" element={<DynamiquePage />} /> 
+          <Route path="/admin/upload" element={<ProjectUpload/>}/>
         </Routes>
+        </ProjectProvider>
       </Box>
     </Box>
   );

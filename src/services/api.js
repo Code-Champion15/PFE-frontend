@@ -496,9 +496,9 @@ export const savePageCode = async (pageName, code) => {
 };
 //api ia creation
 
-export const createFile = async ({ pageName, code }) => {
+export const createFile = async ({ pageName, code, projectId}) => {
   try {
-    const response = await axios.post(`${API_URL}/api/files/createFile`, {pageName,code}, getAuthHeaders());
+    const response = await axios.post(`${API_URL}/api/files/createFile`, {pageName,code, projectId}, getAuthHeaders());
     return response.data;
   } catch (error) {
     console.error('Erreur lors de la création du fichier :', error);
@@ -625,6 +625,41 @@ export const fetchFileListDash = async () => {
     throw new Error("Impossible de charger la liste des fichiers.");
   }
 };
+
+//pour l upload 
+export const uploadProjectZip = async (file) => {
+  const formData = new FormData();
+  formData.append('projectZip', file);
+  const token = localStorage.getItem("token");
+  const response = await axios.post(`${API_URL}/api/upload`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity,
+  });
+
+  return response.data;
+};
+
+//getUserProjects
+export const getAllProjects = async () => {
+  const res = await axios.get(`${API_URL}/api/projets/my-projects`, getAuthHeaders());
+  return res.data.projets;
+};
+
+export const getActiveProject = async () => {
+  const res = await axios.get(`${API_URL}/api/projets/active`, getAuthHeaders());
+  return res.data.projet;
+};
+
+export const setActiveProject = async (projectId) => {
+  const res = await axios.post(`${API_URL}/api/projets/set-active`, { projectId }, getAuthHeaders());
+  return res.data.projet;
+};
+
+
 
 
 
