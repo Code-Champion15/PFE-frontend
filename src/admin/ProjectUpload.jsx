@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Button, Box, Typography, LinearProgress, Alert } from '@mui/material';
+import {
+  Button,
+  Box,
+  Typography,
+  LinearProgress,
+  Alert,
+  Paper,
+  Stack,
+} from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { uploadProjectZip } from '../services/api';
 
@@ -32,52 +40,65 @@ const ProjectUpload = () => {
       const res = await uploadProjectZip(file);
       setMessage(res.message || 'Upload réussi');
     } catch (err) {
-      setError(err?.response?.data?.error || 'Erreur lors de l\'upload');
+      setError(err?.response?.data?.error || "Erreur lors de l'upload");
     } finally {
       setUploading(false);
     }
   };
 
   return (
-    <Box sx={{ p: 8, border: '1px solid #ccc', borderRadius: 2, maxWidth: 500, mx: 'auto', mt:10}}>
-      <Typography variant="h6" gutterBottom>
-        Upload d’un projet React (ZIP)
-      </Typography>
-
-      <input
-        type="file"
-        accept=".zip"
-        onChange={handleFileChange}
-        style={{ display: 'none' }}
-        id="upload-zip"
-      />
-
-      <label htmlFor="upload-zip">
-        <Button variant="outlined" component="span" startIcon={<CloudUploadIcon />}>
-          Choisir un fichier ZIP
-        </Button>
-      </label>
-
-      {file && (
-        <Typography variant="body2" sx={{ mt: 1 }}>
-          Fichier sélectionné : {file.name}
+    <Box sx={{ p:10, display: 'flex', justifyContent: 'center' }}>
+      <Paper elevation={4} sx={{ p: 5, borderRadius: 4, width: '100%', maxWidth: 600 }}>
+        <Typography variant="h5" sx={{ color: "#F39325", fontFamily: "Poppins", mb: 3 }}>
+          Importer un projet
         </Typography>
-      )}
 
-      {uploading && <LinearProgress sx={{ my: 2 }} />}
+        <Stack spacing={2}>
+          <Typography variant="body1">
+            Uploadez un projet React compressé au format <strong>.zip</strong>.
+          </Typography>
 
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleUpload}
-        disabled={!file || uploading}
-        sx={{ mt: 2 }}
-      >
-        Uploader le projet
-      </Button>
+          <input
+            type="file"
+            accept=".zip"
+            onChange={handleFileChange}
+            style={{ display: 'none' }}
+            id="upload-zip"
+          />
 
-      {message && <Alert severity="success" sx={{ mt: 2 }}>{message}</Alert>}
-      {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+          <label htmlFor="upload-zip">
+            <Button
+              variant="outlined"
+              component="span"
+              fullWidth
+              startIcon={<CloudUploadIcon />}
+            >
+              Choisir un fichier ZIP
+            </Button>
+          </label>
+
+          {file && (
+            <Typography variant="body2" color="text.secondary">
+              Fichier sélectionné : <strong>{file.name}</strong>
+            </Typography>
+          )}
+
+          {uploading && <LinearProgress />}
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleUpload}
+            disabled={!file || uploading}
+            fullWidth
+          >
+            Uploader le projet
+          </Button>
+
+          {message && <Alert severity="success">{message}</Alert>}
+          {error && <Alert severity="error">{error}</Alert>}
+        </Stack>
+      </Paper>
     </Box>
   );
 };

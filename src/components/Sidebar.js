@@ -9,6 +9,7 @@ import FolderDeleteIcon from '@mui/icons-material/FolderDelete';
 import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 import GroupIcon from '@mui/icons-material/Group';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import React from "react";
 
 import { useNavigate } from 'react-router-dom';
@@ -44,6 +45,7 @@ const Sidebar = ({ open }) => {
                     { text: "Importer un projet", icon: <CloudUploadIcon/>, path:"/admin/upload"},
                     { text: "Création", icon: <AddIcon />, path: "/admin/createFile" },
                     { text: "Modification", icon: <EditIcon />, path: "/admin/editfile"  },
+                    { text: "Télécharger", icon: <FileDownloadIcon />, path: "/admin/download" },
                     { text: "Supression", icon: < FolderDeleteIcon/>, path:"/admin/delete" },
                     { text: "Historique", icon: <HistoryIcon /> , path:"/admin/history"},
                     { text: "journal d'activité", icon: <WorkHistoryIcon/>, path:"/admin/my-history" },

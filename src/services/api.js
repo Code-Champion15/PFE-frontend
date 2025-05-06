@@ -405,7 +405,7 @@ export const fetchFileList = async () => {
 };
 
 // Lire un fichier
-export const getPageCode = async (pageName) => {
+export const getPageCode = async (pageName) => {                                                                                                                                    
   try {
     const response = await axios.get(`${API_URL}/api/files/${pageName}`, getAuthHeaders());
     return response.data;
@@ -659,7 +659,31 @@ export const setActiveProject = async (projectId) => {
   return res.data.projet;
 };
 
+export const downloadProject = async (projectId) => {
+  try{
+    const token = localStorage.getItem("token");
 
+    const response = await axios.get(`${API_URL}/api/projets/${projectId}/download`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: 'blob',
+    });
+    const blob = new Blob ([response.data], {type: 'application/zip'});
+    const downloadUrl = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.setAttribute('download', `project_${projectId}.zip`);
+    document.body.appendChild(link);
+    link.click();
+    window.URL.revokeObjectURL(downloadUrl);
+
+  } catch (error) {
+    console.error("Erreur lors du telechargement du projet : ", error);
+    alert("Erreur lors du téléchargement du projet");
+  }
+};
 
 
 

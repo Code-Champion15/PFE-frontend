@@ -31,6 +31,7 @@ import Parking from "../pages/Parking";
 import PagePreviewInterface from "../pages/admin/PagePreviewInterface";
 import ProjectUpload from "../admin/ProjectUpload";
 import { ProjectProvider } from "../contexts/ProjectContext";
+import ProjectList from "../pages/admin/ProjectList";
 
 const DynamicPage = () => {
   const { route } = useParams();
@@ -91,6 +92,7 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
           <Route path="*" element={<div>Page non trouvée</div>} />
           <Route path="/:pageName" element={<DynamiquePage />} /> 
           <Route path="/admin/upload" element={<ProjectUpload/>}/>
+          <Route path="/admin/download" element={<ProjectList/>} />
         </Routes>
         </ProjectProvider>
       </Box>
