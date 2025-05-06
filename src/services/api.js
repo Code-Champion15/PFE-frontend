@@ -498,7 +498,11 @@ export const savePageCode = async (pageName, code) => {
 
 export const createFile = async ({ pageName, code, projectId}) => {
   try {
-    const response = await axios.post(`${API_URL}/api/files/createFile`, {pageName,code, projectId}, getAuthHeaders());
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/api/files/createFile`, {pageName,code, projectId},
+      {headers:{
+      Authorization: `Bearer ${token}`,
+    }});
     return response.data;
   } catch (error) {
     console.error('Erreur lors de la création du fichier :', error);
