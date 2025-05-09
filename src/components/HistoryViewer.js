@@ -39,13 +39,7 @@ const HistoryViewer = () => {
 
   return (
     <Paper sx={{ ml: 5, p: 2 }}>
-      <FormControl sx={{ mr: 2, minWidth: 150 }}>
-        <TextField
-          label="Nom de la page"
-          value={pageFilter}
-          onChange={(e) => setPageFilter(e.target.value)}
-        />
-      </FormControl>
+      
       <FormControl sx={{ mr: 2, minWidth: 150 }}>
         <InputLabel id="operation-filter-label">Opération</InputLabel>
         <Select
@@ -64,6 +58,13 @@ const HistoryViewer = () => {
           label="Utilisateur"
           value={userFilter}
           onChange={(e) => setUserFilter(e.target.value)}
+        />
+      </FormControl>
+      <FormControl sx={{ mr: 2, minWidth: 150 }}>
+        <TextField
+          label="Nom de la page"
+          value={pageFilter}
+          onChange={(e) => setPageFilter(e.target.value)}
         />
       </FormControl>
 

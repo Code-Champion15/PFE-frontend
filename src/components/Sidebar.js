@@ -9,6 +9,7 @@ import FolderDeleteIcon from '@mui/icons-material/FolderDelete';
 import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 import GroupIcon from '@mui/icons-material/Group';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import React from "react";
 
@@ -42,10 +43,11 @@ const Sidebar = ({ open }) => {
             <List sx={{ display: 'flex', flexDirection: 'column', height: '100%', marginTop: '64px' }}>
                 {[
                     { text: "Tableau de bord", icon: <DashboardIcon />, path: "/admin/dashboard" },
-                    { text: "Importer un projet", icon: <CloudUploadIcon/>, path:"/admin/upload"},
+                    { text: "Importer un projet", icon: <FileUploadIcon/>, path:"/admin/upload"},
                     { text: "Création", icon: <AddIcon />, path: "/admin/createFile" },
                     { text: "Modification", icon: <EditIcon />, path: "/admin/editfile"  },
                     { text: "Télécharger", icon: <FileDownloadIcon />, path: "/admin/download" },
+                    { text: "Deployer", icon: <CloudUploadIcon/>, path: "/admin/deploy"},
                     { text: "Supression", icon: < FolderDeleteIcon/>, path:"/admin/delete" },
                     { text: "Historique", icon: <HistoryIcon /> , path:"/admin/history"},
                     { text: "journal d'activité", icon: <WorkHistoryIcon/>, path:"/admin/my-history" },

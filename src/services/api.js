@@ -396,7 +396,13 @@ const getAuthHeaders = () => {
 // Liste des fichiers JS (sans .js)
 export const fetchFileList = async () => {
   try {
-    const response = await axios.get(`${API_URL}/api/files/list`, getAuthHeaders());
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(`${API_URL}/api/files/list`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
     return response.data;
   } catch (error) {
     console.error("Erreur lors de la récupération de la liste :", error);
@@ -686,6 +692,37 @@ export const downloadProject = async (projectId) => {
   } catch (error) {
     console.error("Erreur lors du telechargement du projet : ", error);
     alert("Erreur lors du téléchargement du projet");
+  }
+};
+
+export const getProjectsWithDeploymentInfo = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(`${API_URL}/api/projets/deploy-info`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erreur getProjectsWithDeploymentInfo:', error);
+    throw error;
+  }
+};
+
+
+export const deployProject = async (userId, projectName) => {
+  try{
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/deploy`, {userId, projectName},{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message
   }
 };
 
