@@ -6,7 +6,7 @@ const API_URL = "http://localhost:5000";
 export const generatePageFromPrompt = async (prompt) => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.post(`${API_URL}/ai/generate`, { prompt },{
+    const response = await axios.post(`${API_URL}/ai/generate`, { prompt }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -14,7 +14,7 @@ export const generatePageFromPrompt = async (prompt) => {
     return response.data.content;
   } catch (error) {
     console.error("Erreur lors de la génération de la page par prompt :", error);
-    throw error; 
+    throw error;
   }
 };
 
@@ -67,9 +67,10 @@ export const createPage = async (pageData) => {
   try {
     const token = localStorage.getItem("token");
     const response = await axios.post(`${API_URL}/pages/create`, pageData, {
-      headers: { "Content-Type": "application/json",
+      headers: {
+        "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
-       },
+      },
     });
     return response.data;
   } catch (error) {
@@ -102,50 +103,50 @@ export const getPageContent = async (id) => {
   }
 };
 
-  // export const updatePageContent = async (pageId, contentData) => {
-  //   try {
-  //     const payload = { content: JSON.stringify(contentData) };
-  //     const response = await axios.put(`${API_URL}/pages/update/${pageId}`, payload);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error("Erreur lors de la mise à jour du contenu de la page :", error);
-  //     throw error;
-  //   }
-  // };
+// export const updatePageContent = async (pageId, contentData) => {
+//   try {
+//     const payload = { content: JSON.stringify(contentData) };
+//     const response = await axios.put(`${API_URL}/pages/update/${pageId}`, payload);
+//     return response.data;
+//   } catch (error) {
+//     console.error("Erreur lors de la mise à jour du contenu de la page :", error);
+//     throw error;
+//   }
+// };
 
-  export const updatePageContent = async (pageId, contentData, operationType) => {
-    try {
-      const token = localStorage.getItem("token");
-      const payload = {
-        //content: JSON.stringify(contentData),
-        content: contentData,
-        operationType, 
-      };
-      console.log(` FRONTEND : Mise à jour de la page avec ID: ${pageId}`);
-      console.log(" FRONTEND : Payload envoyé :", payload);
-      const response = await axios.put(`${API_URL}/pages/update/${pageId}`, payload, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-      });
-      console.log(" FRONTEND : Réponse :", response.data);
+export const updatePageContent = async (pageId, contentData, operationType) => {
+  try {
+    const token = localStorage.getItem("token");
+    const payload = {
+      //content: JSON.stringify(contentData),
+      content: contentData,
+      operationType,
+    };
+    console.log(` FRONTEND : Mise à jour de la page avec ID: ${pageId}`);
+    console.log(" FRONTEND : Payload envoyé :", payload);
+    const response = await axios.put(`${API_URL}/pages/update/${pageId}`, payload, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    });
+    console.log(" FRONTEND : Réponse :", response.data);
 
-      return response.data;
-    } catch (error) {
-      console.error("Erreur lors de la mise à jour du contenu :", error);
-      throw error;
-    }
-  };
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du contenu :", error);
+    throw error;
+  }
+};
 
 
 export const getAllPagesWithChildren = async () => {
   try {
-      const response = await axios.get(`${API_URL}/pages/withchildren`);
-      return response.data; 
+    const response = await axios.get(`${API_URL}/pages/withchildren`);
+    return response.data;
   } catch (error) {
-      console.error("Erreur lors de la récupération des pages :", error);
-      return [];
+    console.error("Erreur lors de la récupération des pages :", error);
+    return [];
   }
 };
 
@@ -167,7 +168,7 @@ export const getPageContentByRoute = async (route) => {
     if (!Array.isArray(response.data) || response.data.length === 0) {
       throw new Error("Réponse API invalide ou vide");
     }
-    console.log("Réponse API :", response.data); 
+    console.log("Réponse API :", response.data);
 
     return response.data;
   } catch (error) {
@@ -192,20 +193,20 @@ export const getModificationHistory = async () => {
   }
 };
 
-export const getMyModificationHistory = async () => { 
-  try { 
-    const token = localStorage.getItem("token"); 
+export const getMyModificationHistory = async () => {
+  try {
+    const token = localStorage.getItem("token");
     const response = await axios.get(`${API_URL}/modification/my-history`, {
-       headers: {
+      headers: {
         "Authorization": `Bearer ${token}`
-       }
-    }); 
+      }
+    });
     console.log("Historique personnel récupéré :", response.data);
-    return response.data; 
+    return response.data;
   } catch (error) {
-     console.error("Erreur lors de la récupération de l'historique personnel :", error);
-     throw error; 
-    }
+    console.error("Erreur lors de la récupération de l'historique personnel :", error);
+    throw error;
+  }
 };
 
 export const registerUser = async (userData) => {
@@ -275,13 +276,13 @@ export const getStatsByPage = async (pageRoute) => {
 
 export const deletePage = async (pageId) => {
   try {
-    const token = localStorage.getItem("token"); 
+    const token = localStorage.getItem("token");
     const response = await axios.delete(`${API_URL}/pages/delete/${pageId}`, {
       headers: {
-        "Authorization": `Bearer ${token}`, 
+        "Authorization": `Bearer ${token}`,
       }
     });
-    return response.data; 
+    return response.data;
   } catch (error) {
     throw new Error("Erreur lors de la suppression de la page");
   }
@@ -289,20 +290,20 @@ export const deletePage = async (pageId) => {
 
 export const restorePage = async (pageId) => {
   const token = localStorage.getItem("token");
-  console.log("Token récupéré : ", token); 
+  console.log("Token récupéré : ", token);
 
   try {
     const response = await axios.put(`${API_URL}/pages/restore/${pageId}`, {}, {
       headers: {
-        "Authorization": `Bearer ${token}`, 
+        "Authorization": `Bearer ${token}`,
       },
     });
     return response.data;
   } catch (error) {
     console.error("Erreur lors de la restauration :", error);
-    throw error; 
+    throw error;
   }
- 
+
 };
 
 export const getPageVersions = async (pageId) => {
@@ -318,7 +319,7 @@ export const restoreVersion = async (pageId, versionId) => {
 
   const response = await axios.put(
     `${API_URL}/pages/${pageId}/versions/${versionId}/restore`,
-    {}, 
+    {},
     { headers: { Authorization: `Bearer ${token}` } }
   );
   return response.data;
@@ -326,7 +327,7 @@ export const restoreVersion = async (pageId, versionId) => {
 
 export const logOut = () => {
   localStorage.removeItem("token");
-  window.location.href = "/login"; 
+  window.location.href = "/login";
 };
 
 export const getAdmins = async () => {
@@ -373,7 +374,7 @@ export const approveAdmin = async (id) => {
   const token = localStorage.getItem("token");
   const res = await axios.put(
     `${API_URL}/profils/admins/approve/${id}`,
-    {}, 
+    {},
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -385,7 +386,7 @@ export const approveAdmin = async (id) => {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 const getAuthHeaders = () => {
-  const token = localStorage.getItem("token"); 
+  const token = localStorage.getItem("token");
   return {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -399,10 +400,10 @@ export const fetchFileList = async () => {
     const token = localStorage.getItem("token");
 
     const response = await axios.get(`${API_URL}/api/files/list`, {
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        },
-      });
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Erreur lors de la récupération de la liste :", error);
@@ -411,7 +412,7 @@ export const fetchFileList = async () => {
 };
 
 // Lire un fichier
-export const getPageCode = async (pageName) => {                                                                                                                                    
+export const getPageCode = async (pageName) => {
   try {
     const response = await axios.get(`${API_URL}/api/files/${pageName}`, getAuthHeaders());
     return response.data;
@@ -424,7 +425,7 @@ export const getPageCode = async (pageName) => {
 // Sauvegarder un fichier
 export const updatePageCode = async (pageName, content) => {
   try {
-    const response = await axios.post(`${API_URL}/api/files/${pageName}`,{ content },getAuthHeaders());
+    const response = await axios.post(`${API_URL}/api/files/${pageName}`, { content }, getAuthHeaders());
     return response.data;
   } catch (error) {
     console.error("Erreur mise à jour fichier :", error);
@@ -434,7 +435,7 @@ export const updatePageCode = async (pageName, content) => {
 
 export const generateCodeFromPrompt = async (prompt) => {
   try {
-    const response = await axios.post(`${API_URL}/api/files/generate`, { prompt },getAuthHeaders());
+    const response = await axios.post(`${API_URL}/api/files/generate`, { prompt }, getAuthHeaders());
     console.log("Réponse complète de l'API :", response);
 
     console.log("Code généré :", response.data.code);
@@ -480,7 +481,7 @@ export const saveEdit = async ({ fileName, oldCode, newCode, instruction }) => {
       {
         headers: {
           "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
         },
       }
     );
@@ -493,7 +494,7 @@ export const saveEdit = async ({ fileName, oldCode, newCode, instruction }) => {
 
 export const savePageCode = async (pageName, code) => {
   try {
-    const response = await axios.post(`${API_URL}/api/files/savePageCode`, {pageName,code}, getAuthHeaders());
+    const response = await axios.post(`${API_URL}/api/files/savePageCode`, { pageName, code }, getAuthHeaders());
     return response.data;
   } catch (error) {
     console.error("Erreur lors de la sauvegarde du code :", error);
@@ -502,13 +503,15 @@ export const savePageCode = async (pageName, code) => {
 };
 //api ia creation
 
-export const createFile = async ({ pageName, code, projectId}) => {
+export const createFile = async ({ pageName, code, projectId }) => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.post(`${API_URL}/api/files/createFile`, {pageName,code, projectId},
-      {headers:{
-      Authorization: `Bearer ${token}`,
-    }});
+    const response = await axios.post(`${API_URL}/api/files/createFile`, { pageName, code, projectId },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
     return response.data;
   } catch (error) {
     console.error('Erreur lors de la création du fichier :', error);
@@ -519,7 +522,7 @@ export const createFile = async ({ pageName, code, projectId}) => {
 //ai creation
 export const generateCode = async (prompt) => {
   try {
-    const response = await axios.post(`${API_URL}/ai/generateCode`, {prompt}, getAuthHeaders());
+    const response = await axios.post(`${API_URL}/ai/generateCode`, { prompt }, getAuthHeaders());
     return response.data.code;
   } catch (error) {
     console.error('Erreur lors de la génération du code par l’IA :', error);
@@ -540,19 +543,19 @@ export const getAllOperations = async () => {
 
 //journal
 export const getMyOperations = async () => {
-  try{
-  const response = await axios.get(`${API_URL}/operations/myOperations`, getAuthHeaders());
-  return response.data;
-  }catch (error) {
-    console.error("Erreur lors de laffichage de mon journal:",error);
+  try {
+    const response = await axios.get(`${API_URL}/operations/myOperations`, getAuthHeaders());
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lors de laffichage de mon journal:", error);
     throw error;
   }
 };
 
 //trackVisit
-export const trackVisit = async ({pageName, startTime, endTime}) => {
+export const trackVisit = async ({ pageName, startTime, endTime }) => {
   try {
-    const response = await axios.post(`${API_URL}/visites/trackVisit/${pageName}`,{startTime, endTime}, getAuthHeaders());
+    const response = await axios.post(`${API_URL}/visites/trackVisit/${pageName}`, { startTime, endTime }, getAuthHeaders());
     return response.data; // Retourne la réponse, si nécessaire
   } catch (error) {
     console.error('Erreur lors de l\'enregistrement de la visite:', error);
@@ -593,7 +596,7 @@ export const getStatsByFile = async (params) => {
 
 export const getAllStats = async (params = {}) => {
   try {
-    const response = await axios.get(`${API_URL}/visites/allStats`, { params }); 
+    const response = await axios.get(`${API_URL}/visites/allStats`, { params });
     return response.data;
   } catch (error) {
     console.error('Erreur lors de la récupération des statistiques par page:', error);
@@ -612,7 +615,7 @@ export const getAllStats = async (params = {}) => {
 //   }
 // };
 export const getHourlyStatsByPage = async (pageName) => {
-  const response = await axios.get(`${API_URL}/visites/hourlyStats/${pageName}`,getAuthHeaders());
+  const response = await axios.get(`${API_URL}/visites/hourlyStats/${pageName}`, getAuthHeaders());
   return response.data;
 };
 
@@ -670,7 +673,7 @@ export const setActiveProject = async (projectId) => {
 };
 
 export const downloadProject = async (projectId) => {
-  try{
+  try {
     const token = localStorage.getItem("token");
 
     const response = await axios.get(`${API_URL}/api/projets/${projectId}/download`, {
@@ -679,7 +682,7 @@ export const downloadProject = async (projectId) => {
       },
       responseType: 'blob',
     });
-    const blob = new Blob ([response.data], {type: 'application/zip'});
+    const blob = new Blob([response.data], { type: 'application/zip' });
     const downloadUrl = window.URL.createObjectURL(blob);
 
     const link = document.createElement('a');
@@ -713,9 +716,9 @@ export const getProjectsWithDeploymentInfo = async () => {
 
 
 export const deployProject = async (userId, projectName) => {
-  try{
+  try {
     const token = localStorage.getItem("token");
-    const response = await axios.post(`${API_URL}/deploy`, {userId, projectName},{
+    const response = await axios.post(`${API_URL}/deploy`, { userId, projectName }, {
       headers: {
         Authorization: `Bearer ${token}`,
       }
@@ -724,6 +727,22 @@ export const deployProject = async (userId, projectName) => {
   } catch (error) {
     throw error.response?.data || error.message
   }
+};
+
+//section avis
+export const getAvis = async () => {
+  const res = await axios.get(`${API_URL}/api/avis`);
+  return res.data;
+};
+
+export const createAvis = async (note, commentaire) => {
+  const token = localStorage.getItem("token");
+  const res = await axios.post(`${API_URL}/api/avis/create`,{ note, commentaire },
+    { headers: 
+      { Authorization: `Bearer ${token}` } 
+    }
+  );
+  return res.data;
 };
 
 

@@ -11,6 +11,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import CommentIcon from '@mui/icons-material/Comment';
 import React from "react";
 
 import { useNavigate } from 'react-router-dom';
@@ -49,6 +50,7 @@ const Sidebar = ({ open }) => {
                     { text: "Télécharger", icon: <FileDownloadIcon />, path: "/admin/download" },
                     { text: "Deployer", icon: <CloudUploadIcon/>, path: "/admin/deploy"},
                     { text: "Supression", icon: < FolderDeleteIcon/>, path:"/admin/delete" },
+                    { text: "Avis", icon: <CommentIcon/>, path:"/admin/avis"},
                     { text: "Historique", icon: <HistoryIcon /> , path:"/admin/history"},
                     { text: "journal d'activité", icon: <WorkHistoryIcon/>, path:"/admin/my-history" },
                     { text: "gestion des versions", icon: <ManageHistoryIcon/>, path:"/admin/version-manager"},
