@@ -35,6 +35,7 @@ import ProjectList from "../pages/admin/ProjectList";
 import ProjectDownload from "../pages/admin/ProjectList";
 import ProjectDeploy from "../pages/admin/ProjectDeploy";
 import AvisInterface from "../pages/admin/AvisInterface";
+import AdminTableau from "../pages/admin/AdminTableau";
 
 const DynamicPage = () => {
   const { route } = useParams();
@@ -98,6 +99,7 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
           <Route path="/admin/download" element={<ProjectDownload/>} />
           <Route path="/admin/deploy" element={<ProjectDeploy/>} />
           <Route path="/admin/avis" element={<AvisInterface/>}/>
+          <Route path="/admin/tableau" element={<AdminTableau/>}/>
         </Routes>
         </ProjectProvider>
       </Box>

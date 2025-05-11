@@ -737,12 +737,25 @@ export const getAvis = async () => {
 
 export const createAvis = async (note, commentaire) => {
   const token = localStorage.getItem("token");
-  const res = await axios.post(`${API_URL}/api/avis/create`,{ note, commentaire },
-    { headers: 
-      { Authorization: `Bearer ${token}` } 
+  const res = await axios.post(`${API_URL}/api/avis/create`, { note, commentaire },
+    {
+      headers:
+        { Authorization: `Bearer ${token}` }
     }
   );
   return res.data;
+};
+
+//dashboard admin
+export const getDashboardStats = async () => {
+  const token = localStorage.getItem("token");
+  const response = await axios.get(`${API_URL}/api/stats/admin/tableau`,
+    {
+      headers:
+        { Authorization: `Bearer ${token}` }
+    }
+  );
+  return response.data;
 };
 
 

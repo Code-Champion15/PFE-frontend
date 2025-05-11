@@ -52,6 +52,7 @@ const Sidebar = ({ open }) => {
                     { text: "Supression", icon: < FolderDeleteIcon/>, path:"/admin/delete" },
                     { text: "Avis", icon: <CommentIcon/>, path:"/admin/avis"},
                     { text: "Historique", icon: <HistoryIcon /> , path:"/admin/history"},
+                    { text: "dashboard", icon: <DashboardIcon/>, path:"/admin/tableau"},
                     { text: "journal d'activité", icon: <WorkHistoryIcon/>, path:"/admin/my-history" },
                     { text: "gestion des versions", icon: <ManageHistoryIcon/>, path:"/admin/version-manager"},
                     { test: "gestion des admins", icon: <GroupIcon/>, path:"/admins"},
