@@ -31,7 +31,7 @@ useEffect(() => {
     setDeploying((prev) => ({ ...prev, [projectName]: true }));
     try {
       await deployProject(userId, projectName);
-      alert("Déploiement lancé !");
+      alert("Déploiement effectué !");
       fetchProjects();
     } catch (error) {
       alert("Erreur de déploiement : " + (error.message || "inconnue"));

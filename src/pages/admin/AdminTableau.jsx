@@ -17,7 +17,7 @@ const AdminTableau = () => {
   if (!stats) return <div>Chargement...</div>;
 
   return (
-    <Box sx={{ padding: 4 }}>
+    <Box sx={{ p: 10 }}>
       <Grid container spacing={3}>
         {/* Cards */}
         <Grid item xs={12} sm={6} md={3}>
@@ -56,7 +56,6 @@ const AdminTableau = () => {
           </Card>
         </Grid>
 
-        {/* Connexions récentes et Opérations côte à côte */}
         <Grid item xs={12} sm={6} md={6}>
           <Card sx={{ boxShadow: 3 }}>
             <CardContent>

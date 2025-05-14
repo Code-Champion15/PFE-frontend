@@ -36,6 +36,7 @@ import ProjectDownload from "../pages/admin/ProjectList";
 import ProjectDeploy from "../pages/admin/ProjectDeploy";
 import AvisInterface from "../pages/admin/AvisInterface";
 import AdminTableau from "../pages/admin/AdminTableau";
+import WelcomeScreen from "../pages/admin/WelcomeScreen";
 
 const DynamicPage = () => {
   const { route } = useParams();
@@ -61,6 +62,7 @@ const AppRoutes = ({ toggleSidebar, sidebarOpen }) => {
         <Routes>
 
           {/* <Route path="/:route" element={<DynamicPage />} /> */}
+          <Route path="/" element={<WelcomeScreen/>}/> 
 
           <Route path="/login" element={<AuthPage />} />
           <Route path="/login/forgot-password" element={<ForgotPassword />} />

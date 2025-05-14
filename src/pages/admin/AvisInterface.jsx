@@ -43,11 +43,11 @@ const AvisInterface = () => {
   };
 
   return (
-    <Box maxWidth="700px" mx="auto" mt={4} p={2}>
-      <Typography variant="h4" gutterBottom align="center">Avis des utilisateurs</Typography>
+    <Box maxWidth="700px" mx="auto" sx={{p:10}}>
+      <Typography variant="h4" gutterBottom align="center" sx={{fontFamily:'Poppins',color:'#F39325'}}>Avis des utilisateurs</Typography>
 
       <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
-        <Typography variant="h6">Note moyenne :&nbsp;</Typography>
+        <Typography variant="h6"sx={{fontFamily:'Poppins', color:"#1B374C"}}>Note moyenne :&nbsp;</Typography>
         <Rating value={parseFloat(averageNote)} precision={0.1} readOnly />
         <Typography variant="body1">&nbsp;({averageNote}/5)</Typography>
       </Box>
@@ -55,7 +55,7 @@ const AvisInterface = () => {
       <Divider sx={{ mb: 3 }} />
 
       <form onSubmit={handleSubmit}>
-        <Typography variant="h6" gutterBottom>Laissez votre avis</Typography>
+        <Typography variant="h6" gutterBottom sx={{color:"#1B374C"}}>Laissez votre avis</Typography>
         <Rating
           value={note}
           onChange={(e, newValue) => setNote(newValue)}
@@ -70,7 +70,7 @@ const AvisInterface = () => {
           onChange={(e) => setCommentaire(e.target.value)}
           sx={{ my: 2 }}
         />
-        <Button variant="contained" type="submit" color="primary">Envoyer</Button>
+        <Button variant="contained" type="submit" sx={{ backgroundColor: '#1B374C',borderRadius: '20px',}}>Envoyer</Button>
       </form>
 
       <Divider sx={{ my: 4 }} />
